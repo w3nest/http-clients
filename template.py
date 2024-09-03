@@ -32,7 +32,7 @@ template = Template(
             },
         ),
         devTime={
-            "adm-zip": "^0.5.9"
+            "adm-zip": "0.5.9"
         }
     ),
     bundles=Bundles(
