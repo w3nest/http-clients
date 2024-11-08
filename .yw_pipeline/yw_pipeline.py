@@ -1,14 +1,14 @@
-from youwol.app.environment import YouwolEnvironment
-from youwol.app.routers.projects import IPipelineFactory, JsBundle, Link
-from youwol.pipelines.pipeline_typescript_weback_npm import pipeline, PipelineConfig
-from youwol.utils.context import Context
+from w3nest.app.environment import Environment
+from w3nest.app.routers.projects import IPipelineFactory, JsBundle, Link
+from w3nest.pipelines.pipeline_typescript_weback_npm import pipeline, PipelineConfig
+from w3nest_client.context import Context
 
 
 class PipelineFactory(IPipelineFactory):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    async def get(self, env: YouwolEnvironment, context: Context):
+    async def get(self, env: Environment, context: Context):
         config = PipelineConfig(
             target=JsBundle(
                 links=[
