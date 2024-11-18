@@ -3,7 +3,7 @@ import {
     Empty,
     HTTPResponse$,
     RootRouter,
-} from '@youwol/http-primitives'
+} from '../primitives'
 import { SessionDetails } from './interfaces'
 
 export class AccountsClient extends RootRouter {

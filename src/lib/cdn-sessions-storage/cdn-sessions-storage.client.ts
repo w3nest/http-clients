@@ -3,7 +3,7 @@ import {
     HTTPResponse$,
     Json,
     RootRouter,
-} from '@youwol/http-primitives'
+} from '../primitives'
 
 export class CdnSessionsStorageClient extends RootRouter {
     constructor({

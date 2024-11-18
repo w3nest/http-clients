@@ -5,7 +5,7 @@ import {
     HTTPResponse$,
     uploadBlob,
     RootRouter,
-} from '@youwol/http-primitives'
+} from '../primitives'
 import {
     GetGlobalContentResponse,
     MoveDocumentBody,

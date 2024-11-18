@@ -2,7 +2,7 @@ import {
     Router,
     CallerRequestOptions,
     HTTPResponse$,
-} from '@youwol/http-primitives'
+} from '../../../primitives'
 import { EmojisResponse } from './interfaces'
 
 /**

@@ -4,7 +4,7 @@ import {
     HTTPError,
     HTTPResponse$,
     RootRouter,
-} from '@youwol/http-primitives'
+} from '../primitives'
 import {
     NewProjectBody,
     NewProjectResponse,

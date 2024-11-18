@@ -11,7 +11,7 @@ import {
     HTTPResponse$,
     RootRouter,
     HTTPError,
-} from '@youwol/http-primitives'
+} from '../primitives'
 import { GetUserInfoResponse, QueryGroupsResponse } from './interfaces'
 import { MiscRouter } from './routers'
 

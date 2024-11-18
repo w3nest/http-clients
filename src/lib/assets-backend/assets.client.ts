@@ -1,8 +1,4 @@
-import {
-    CallerRequestOptions,
-    HTTPResponse$,
-    RootRouter,
-} from '@youwol/http-primitives'
+import { CallerRequestOptions, HTTPResponse$, RootRouter } from '../primitives'
 import {
     AddImageResponse,
     DeleteAccessPolicyResponse,
