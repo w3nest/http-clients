@@ -67,7 +67,9 @@ export class FilesClient extends RootRouter {
 
         const formData = new FormData()
         formData.append('file', file)
-        body.fileId && formData.append('file_id', body.fileId)
+        if (body.fileId) {
+            formData.append('file_id', body.fileId)
+        }
         formData.append('file_name', body.fileName)
 
         return this.sendFormData$({
