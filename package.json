@@ -1,10 +1,10 @@
 {
-    "name": "@youwol/http-clients",
-    "description": "The library exposes some of YouWol backend services.",
-    "version": "3.0.2-wip",
-    "author": "greinisch@youwol.com",
-    "homepage": "https://github.com/youwol/http-clients#README.md",
-    "main": "dist/@youwol/http-clients.js",
+    "name": "@w3nest/http-clients",
+    "description": "HTTP clients for the w3nest ecosystem.",
+    "version": "4.0.0-wip",
+    "author": "reinisch.gui@gmail.com",
+    "homepage": "https://github.com/w3nest/http-clients#README.md",
+    "main": "dist/@w3nest/http-clients.js",
     "types": "src/index.ts",
     "scripts": {
         "clean": "del-cli dist",
