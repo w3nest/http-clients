@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 const runTimeDependencies = {
     "externals": {
         "@youwol/http-primitives": "^0.2.0",
@@ -48,19 +48,19 @@ const mainEntry : {entryFile: string,loadDependencies:string[]} = {
 const secondaryEntries : {[k:string]:{entryFile: string, name: string, loadDependencies:string[]}}= {}
 
 const entries = {
-     '@youwol/http-clients': './index.ts',
-    ...Object.values(secondaryEntries).reduce( (acc,e) => ({...acc, [`@youwol/http-clients/${e.name}`]:e.entryFile}), {})
+     '@w3nest/http-clients': './index.ts',
+    ...Object.values(secondaryEntries).reduce( (acc,e) => ({...acc, [`@w3nest/http-clients/${e.name}`]:e.entryFile}), {})
 }
 export const setup = {
-    name:'@youwol/http-clients',
-        assetId:'QHlvdXdvbC9odHRwLWNsaWVudHM=',
-    version:'3.0.2-wip',
-    shortDescription:"The library exposes some of YouWol backend services.",
-    developerDocumentation:'https://platform.youwol.com/applications/@youwol/cdn-explorer/latest?package=@youwol/http-clients&tab=doc',
-    npmPackage:'https://www.npmjs.com/package/@youwol/http-clients',
-    sourceGithub:'https://github.com/youwol/http-clients',
-    userGuide:'https://l.youwol.com/doc/@youwol/http-clients',
-    apiVersion:'3',
+    name:'@w3nest/http-clients',
+        assetId:'QHczbmVzdC9odHRwLWNsaWVudHM=',
+    version:'4.0.0-wip',
+    shortDescription:"HTTP clients for the w3nest ecosystem.",
+    developerDocumentation:'https://platform.youwol.com/applications/@youwol/cdn-explorer/latest?package=@w3nest/http-clients&tab=doc',
+    npmPackage:'https://www.npmjs.com/package/@w3nest/http-clients',
+    sourceGithub:'https://github.com/w3nest/http-clients',
+    userGuide:'',
+    apiVersion:'4',
     runTimeDependencies,
     externals,
     exportedSymbols,
@@ -71,7 +71,7 @@ export const setup = {
     },
 
     installMainModule: ({cdnClient, installParameters}:{
-        cdnClient:{install:(unknown) => Promise<WindowOrWorkerGlobalScope>},
+        cdnClient:{install:(_:unknown) => Promise<WindowOrWorkerGlobalScope>},
         installParameters?
     }) => {
         const parameters = installParameters || {}
@@ -85,12 +85,12 @@ export const setup = {
             modules,
             scripts,
         }).then(() => {
-            return window[`@youwol/http-clients_APIv3`]
+            return window[`@w3nest/http-clients_APIv4`]
         })
     },
     installAuxiliaryModule: ({name, cdnClient, installParameters}:{
         name: string,
-        cdnClient:{install:(unknown) => Promise<WindowOrWorkerGlobalScope>},
+        cdnClient:{install:(_:unknown) => Promise<WindowOrWorkerGlobalScope>},
         installParameters?
     }) => {
         const entry = secondaryEntries[name]
@@ -100,7 +100,7 @@ export const setup = {
         const parameters = installParameters || {}
         const scripts = [
             ...(parameters.scripts || []),
-            `@youwol/http-clients#3.0.2-wip~dist/@youwol/http-clients/${entry.name}.js`
+            `@w3nest/http-clients#4.0.0-wip~dist/@w3nest/http-clients/${entry.name}.js`
         ]
         const modules = [
             ...(parameters.modules || []),
@@ -111,7 +111,7 @@ export const setup = {
             modules,
             scripts,
         }).then(() => {
-            return window[`@youwol/http-clients/${entry.name}_APIv3`]
+            return window[`@w3nest/http-clients/${entry.name}_APIv4`]
         })
     },
     getCdnDependencies(name?: string){

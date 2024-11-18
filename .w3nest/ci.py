@@ -1,6 +1,6 @@
 from w3nest.app.environment import Environment
-from w3nest.app.routers.projects import IPipelineFactory, JsBundle, Link
-from w3nest.pipelines.pipeline_typescript_weback_npm import pipeline, PipelineConfig
+from w3nest.app.projects import IPipelineFactory, JsBundle, Link
+from w3nest.ci.ts_frontend import pipeline, PipelineConfig
 from w3nest_client.context import Context
 
 

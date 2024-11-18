@@ -1,10 +1,6 @@
-import { Config } from 'jest'
+import { Config } from "jest";
 
-const t: Config = {
-    preset: '@youwol/jest-preset',
-    modulePathIgnorePatterns: [
-        'src/tests/files-backend/test-data/package.json',
-        'src/tests/accounts-backend/login_logout.test.ts',
-    ],
-}
-export default t
+const jestConfig: Config = {
+    modulePathIgnorePatterns: ["<rootDir>/.w3nest", "<rootDir>/dist"],
+};
+export default jestConfig;

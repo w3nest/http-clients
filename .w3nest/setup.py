@@ -1,17 +1,17 @@
-import shutil
+from shutil import copyfile
 from pathlib import Path
 
-from w3nest.pipelines.pipeline_typescript_weback_npm import Template, PackageType, Dependencies, \
+from w3nest.ci.ts_frontend import ProjectConfig, PackageType, Dependencies, \
     RunTimeDeps, generate_template, Bundles, MainModule
 from w3nest.utils import parse_json
 
-folder_path = Path(__file__).parent
+project_folder = Path(__file__).parent.parent
 
-pkg_json = parse_json(folder_path / 'package.json')
+pkg_json = parse_json(project_folder / 'package.json')
 
 
-template = Template(
-    path=folder_path,
+config = ProjectConfig(
+    path=project_folder,
     type=PackageType.LIBRARY,
     name=pkg_json['name'],
     version=pkg_json['version'],
@@ -21,6 +21,10 @@ template = Template(
             "fs": False,
             "path": False,
             "os": False
+        },
+        "scripts": {
+            # 'src/tests' folder need to be corrected
+            "lint-eslint-check": "eslint ./src/lib",
         }
     },
     author=pkg_json['author'],
@@ -42,17 +46,18 @@ template = Template(
         )
     ),
     testConfig="https://github.com/youwol/integration-tests-conf",
-    userGuide=True
     )
 
-generate_template(template)
-shutil.copyfile(
-    src=folder_path / '.template' / 'src' / 'auto-generated.ts',
-    dst=folder_path / 'src' / 'auto-generated.ts'
-)
-for file in ['README.md', '.gitignore', '.npmignore', '.prettierignore', 'LICENSE', 'package.json',
-            'tsconfig.json', 'webpack.config.ts']:
-    shutil.copyfile(
-        src=folder_path / '.template' / file,
-        dst=folder_path / file
-    )
+template_folder = Path(__file__).parent / '.template'
+generate_template(config=config,dst_folder=template_folder)
+
+files = [
+    Path("src") / "auto-generated.ts",
+    "README.md",
+    "package.json",
+    "tsconfig.json",
+    "jest.config.ts",
+    "webpack.config.ts",
+    ]
+for file in files:
+    copyfile(src=template_folder / file, dst=project_folder / file)
