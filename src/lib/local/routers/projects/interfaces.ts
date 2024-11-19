@@ -39,7 +39,7 @@ export interface Pipeline {
     tags: string[]
     description: string
     steps: PipelineStep[]
-    flows: Flow[]
+    flow: Flow
 }
 
 export interface Project {
@@ -116,7 +116,6 @@ export interface PipelineStepStatus {
 
 export interface PipelineStepStatusResponse {
     projectId: string
-    flowId: string
     stepId: string
     artifactFolder: string
     artifacts: Artifact[]
@@ -149,7 +148,6 @@ export type PipelineStepEventKind =
 
 export interface PipelineStepEvent {
     projectId: string
-    flowId: string
     stepId: string
     event: PipelineStepEventKind
 }

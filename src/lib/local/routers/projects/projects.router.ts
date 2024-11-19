@@ -48,8 +48,8 @@ class WebSocketAPI {
         )
     }
 
-    pipelineStatus$(
-        filters: { projectId?: string; flowId?: string } = {},
+    ciStatus$(
+        filters: { projectId?: string } = {},
     ): WebSocketResponse$<PipelineStatusResponse, Label> {
         return this.ws.data$.pipe(
             filterCtxMessage<PipelineStatusResponse, Label>({
@@ -59,8 +59,8 @@ class WebSocketAPI {
         )
     }
 
-    pipelineStepStatus$(
-        filters: { projectId?: string; flowId?: string; stepId?: string } = {},
+    ciStepStatus$(
+        filters: { projectId?: string; stepId?: string } = {},
     ): WebSocketResponse$<PipelineStepStatusResponse, Label> {
         return this.ws.data$.pipe(
             filterCtxMessage<PipelineStepStatusResponse, Label>({
@@ -71,7 +71,7 @@ class WebSocketAPI {
     }
 
     artifacts$(
-        filters: { projectId?: string; flowId?: string } = {},
+        filters: { projectId?: string } = {},
     ): WebSocketResponse$<ArtifactsResponse, Label> {
         return this.ws.data$.pipe(
             filterCtxMessage<ArtifactsResponse, Label>({
@@ -84,7 +84,6 @@ class WebSocketAPI {
     stepEvent$(
         filters: {
             projectId?: string
-            flowId?: string
             stepId?: string
             event?: PipelineStepEventKind
         } = {},
@@ -156,16 +155,14 @@ export class ProjectsRouter extends Router {
 
     getArtifacts$({
         projectId,
-        flowId,
         callerOptions,
     }: {
         projectId: string
-        flowId: string
         callerOptions?: CallerRequestOptions
     }): HTTPResponse$<GetArtifactsResponse> {
         return this.send$({
             command: 'query',
-            path: `/${projectId}/flows/${flowId}/artifacts`,
+            path: `/${projectId}/ci/artifacts`,
             callerOptions,
         })
     }
@@ -174,21 +171,18 @@ export class ProjectsRouter extends Router {
      * Pipeline status
      *
      * @param projectId
-     * @param flowId
      * @param callerOptions
      */
-    getPipelineStatus$({
+    getCiStatus$({
         projectId,
-        flowId,
         callerOptions,
     }: {
         projectId: string
-        flowId: string
         callerOptions?: CallerRequestOptions
     }): HTTPResponse$<GetPipelineStatusResponse> {
         return this.send$({
             command: 'query',
-            path: `/${projectId}/flows/${flowId}`,
+            path: `/${projectId}/ci`,
             callerOptions,
         })
     }
@@ -197,24 +191,21 @@ export class ProjectsRouter extends Router {
      * Flow status
      *
      * @param projectId
-     * @param flowId
      * @param stepId
      * @param callerOptions
      */
-    getPipelineStepStatus$({
+    getCiStepStatus$({
         projectId,
-        flowId,
         stepId,
         callerOptions,
     }: {
         projectId: string
-        flowId: string
         stepId: string
         callerOptions?: CallerRequestOptions
     }): HTTPResponse$<GetPipelineStepStatusResponse> {
         return this.send$({
             command: 'query',
-            path: `/${projectId}/flows/${flowId}/steps/${stepId}`,
+            path: `/${projectId}/ci/steps/${stepId}`,
             callerOptions,
         })
     }
@@ -223,24 +214,21 @@ export class ProjectsRouter extends Router {
      * Run a step
      *
      * @param projectId
-     * @param flowId
      * @param stepId
      * @param callerOptions
      */
     runStep$({
         projectId,
-        flowId,
         stepId,
         callerOptions,
     }: {
         projectId: string
-        flowId: string
         stepId: string
         callerOptions?: CallerRequestOptions
     }): HTTPResponse$<RunStepResponse> {
         return this.send$({
             command: 'update',
-            path: `/${projectId}/flows/${flowId}/steps/${stepId}/run`,
+            path: `/${projectId}/ci/steps/${stepId}/run`,
             callerOptions,
         })
     }
@@ -272,24 +260,21 @@ export class ProjectsRouter extends Router {
      * Return the view of a step
      *
      * @param projectId project's id
-     * @param flow flow's id
      * @param stepId step's id
      * @param callerOptions
      */
     getStepView$({
         projectId,
-        flowId,
         stepId,
         callerOptions,
     }: {
         projectId: string
-        flowId: string
         stepId: string
         callerOptions?: CallerRequestOptions
     }): HTTPResponse$<string> {
         return this.send$({
             command: 'query',
-            path: `/${projectId}/flows/${flowId}/steps/${stepId}/view`,
+            path: `/${projectId}/ci/steps/${stepId}/view`,
             callerOptions,
         })
     }
@@ -305,20 +290,18 @@ export class ProjectsRouter extends Router {
      */
     executeStepGetCommand$({
         projectId,
-        flowId,
         stepId,
         commandId,
         callerOptions,
     }: {
         projectId: string
-        flowId: string
         stepId: string
         commandId: string
         callerOptions?: CallerRequestOptions
     }) {
         return this.send$({
             command: 'query',
-            path: `/${projectId}/flows/${flowId}/steps/${stepId}/commands/${commandId}`,
+            path: `/${projectId}/ci/steps/${stepId}/commands/${commandId}`,
             callerOptions,
         })
     }
@@ -327,24 +310,21 @@ export class ProjectsRouter extends Router {
      * Retrieve the configuration of a pipeline's step
      *
      * @param projectId project's id
-     * @param flow flow's id
      * @param stepId step's id
      * @param callerOptions
      */
     getStepConfiguration$({
         projectId,
-        flowId,
         stepId,
         callerOptions,
     }: {
         projectId: string
-        flowId: string
         stepId: string
         callerOptions?: CallerRequestOptions
     }) {
         return this.send$({
             command: 'query',
-            path: `/${projectId}/flows/${flowId}/steps/${stepId}/configuration`,
+            path: `/${projectId}/ci/steps/${stepId}/configuration`,
             callerOptions,
         })
     }
@@ -353,26 +333,23 @@ export class ProjectsRouter extends Router {
      * Update the configuration of a pipeline's step
      *
      * @param projectId project's id
-     * @param flow flow's id
      * @param stepId step's id
      * @param callerOptions
      */
     updateStepConfiguration$({
         projectId,
-        flowId,
         stepId,
         body,
         callerOptions,
     }: {
         projectId: string
-        flowId: string
         stepId: string
         body: unknown
         callerOptions?: CallerRequestOptions
     }) {
         return this.send$({
             command: 'update',
-            path: `/${projectId}/flows/${flowId}/steps/${stepId}/configuration`,
+            path: `/${projectId}/ci/steps/${stepId}/configuration`,
             nativeRequestOptions: {
                 json: body,
             },
