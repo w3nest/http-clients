@@ -4,8 +4,6 @@ import { AssetsClient } from '../assets-backend'
 import { CdnClient } from '../cdn-backend'
 import { ExplorerClient } from '../explorer-backend'
 import { FilesClient } from '../files-backend'
-import { FluxClient } from '../flux-backend'
-import { StoriesClient } from '../stories-backend'
 import {
     CallerRequestOptions,
     HTTPResponse$,
@@ -18,9 +16,7 @@ import { MiscRouter } from './routers'
 export class AssetsGatewayClient extends RootRouter {
     public readonly misc: MiscRouter
     public readonly cdn: CdnClient
-    public readonly stories: StoriesClient
     public readonly files: FilesClient
-    public readonly flux: FluxClient
     public readonly explorer: ExplorerClient
     public readonly assets: AssetsClient
     public readonly accounts: AccountsClient
@@ -43,19 +39,9 @@ export class AssetsGatewayClient extends RootRouter {
             basePath: `/api/assets-gateway/cdn-backend`,
             hostName,
         })
-        this.stories = new StoriesClient({
-            headers,
-            basePath: `/api/assets-gateway/stories-backend`,
-            hostName,
-        })
         this.files = new FilesClient({
             headers,
             basePath: `/api/assets-gateway/files-backend`,
-            hostName,
-        })
-        this.flux = new FluxClient({
-            headers,
-            basePath: `/api/assets-gateway/flux-backend`,
             hostName,
         })
         this.explorer = new ExplorerClient({
