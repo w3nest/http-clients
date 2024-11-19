@@ -54,13 +54,13 @@ const entries = {
 export const setup = {
     name:'@w3nest/http-clients',
         assetId:'QHczbmVzdC9odHRwLWNsaWVudHM=',
-    version:'4.0.0-wip',
+    version:'0.1.0-wip',
     shortDescription:"HTTP clients for the w3nest ecosystem.",
     developerDocumentation:'https://platform.youwol.com/applications/@youwol/cdn-explorer/latest?package=@w3nest/http-clients&tab=doc',
     npmPackage:'https://www.npmjs.com/package/@w3nest/http-clients',
     sourceGithub:'https://github.com/w3nest/http-clients',
     userGuide:'',
-    apiVersion:'4',
+    apiVersion:'01',
     runTimeDependencies,
     externals,
     exportedSymbols,
@@ -85,7 +85,7 @@ export const setup = {
             modules,
             scripts,
         }).then(() => {
-            return window[`@w3nest/http-clients_APIv4`]
+            return window[`@w3nest/http-clients_APIv01`]
         })
     },
     installAuxiliaryModule: ({name, cdnClient, installParameters}:{
@@ -100,7 +100,7 @@ export const setup = {
         const parameters = installParameters || {}
         const scripts = [
             ...(parameters.scripts || []),
-            `@w3nest/http-clients#4.0.0-wip~dist/@w3nest/http-clients/${entry.name}.js`
+            `@w3nest/http-clients#0.1.0-wip~dist/@w3nest/http-clients/${entry.name}.js`
         ]
         const modules = [
             ...(parameters.modules || []),
@@ -111,7 +111,7 @@ export const setup = {
             modules,
             scripts,
         }).then(() => {
-            return window[`@w3nest/http-clients/${entry.name}_APIv4`]
+            return window[`@w3nest/http-clients/${entry.name}_APIv01`]
         })
     },
     getCdnDependencies(name?: string){
