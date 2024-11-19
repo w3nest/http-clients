@@ -6,6 +6,7 @@ export interface Failure {
 
 export interface Target {
     family: 'application' | 'library' | 'service'
+    execution?: { standalone: boolean }
 }
 
 export interface Link {
@@ -35,7 +36,6 @@ export interface Flow {
 }
 
 export interface Pipeline {
-    target: Target
     tags: string[]
     description: string
     steps: PipelineStep[]
@@ -48,6 +48,7 @@ export interface Project {
     name: string
     id: string
     version: string
+    target: Target
 }
 
 export type FailurePipelineNotFound = Failure
