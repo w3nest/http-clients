@@ -1,5 +1,5 @@
 import '../mock-requests'
-import { HTTPError, raiseHTTPErrors } from '@youwol/http-primitives'
+import { HTTPError, raiseHTTPErrors } from '../../lib/primitives'
 import { map, mergeMap, take, tap } from 'rxjs/operators'
 import { forkJoin, Observable, OperatorFunction } from 'rxjs'
 import { readFileSync } from 'fs'

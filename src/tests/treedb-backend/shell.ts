@@ -7,7 +7,7 @@ import {
 } from '../common'
 import { Observable } from 'rxjs'
 import { mergeMap, tap } from 'rxjs/operators'
-import { HTTPError, raiseHTTPErrors, wrap } from '@youwol/http-primitives'
+import { HTTPError, raiseHTTPErrors, wrap } from '../../lib'
 import {
     QueryChildrenResponse,
     QueryDeletedResponse,

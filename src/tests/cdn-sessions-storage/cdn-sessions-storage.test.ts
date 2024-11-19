@@ -1,14 +1,14 @@
 import '../mock-requests'
 import { getData, postData, shell$ } from './shell'
-import { RootRouter, LocalYouwol } from '@youwol/http-primitives'
-import { getPyYouwolBasePath } from '../common'
+import { RootRouter } from '../../lib/primitives'
+import { getPyYouwolBasePath, setup$ } from '../common'
 import { firstValueFrom } from 'rxjs'
 
 RootRouter.HostName = getPyYouwolBasePath()
 
 beforeAll(async () => {
     await firstValueFrom(
-        LocalYouwol.setup$({
+        setup$({
             localOnly: true,
             authId: 'int_tests_yw-users@test-user',
         }),

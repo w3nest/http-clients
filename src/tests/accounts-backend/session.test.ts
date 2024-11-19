@@ -1,4 +1,4 @@
-import { raiseHTTPErrors } from '@youwol/http-primitives'
+import { raiseHTTPErrors } from '../../lib/primitives'
 import { AccountsClient } from '../../lib/accounts-backend'
 import {
     GetUserInfoResponse,

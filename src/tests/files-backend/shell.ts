@@ -1,5 +1,5 @@
 import '../mock-requests'
-import { HTTPError, raiseHTTPErrors, wrap } from '@youwol/http-primitives'
+import { HTTPError, raiseHTTPErrors, wrap } from '../../lib/primitives'
 import { NewAssetResponse } from '../../lib/assets-gateway'
 import { mergeMap } from 'rxjs/operators'
 import { Observable } from 'rxjs'

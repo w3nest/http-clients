@@ -1,4 +1,4 @@
-import { Shell, shell$ } from '../common'
+import { setup$, Shell, shell$ } from '../common'
 import '../mock-requests'
 import {
     borrow,
@@ -41,13 +41,12 @@ import {
     getAsset,
     upsertAccessPolicy,
 } from '../assets-backend'
-import { LocalYouwol } from '@youwol/http-primitives'
 import { NewAssetResponse } from '../../lib/assets-gateway'
 import { firstValueFrom } from 'rxjs'
 
 beforeEach(async () => {
     await firstValueFrom(
-        LocalYouwol.setup$({
+        setup$({
             localOnly: true,
             authId: 'int_tests_yw-users@test-user',
         }),

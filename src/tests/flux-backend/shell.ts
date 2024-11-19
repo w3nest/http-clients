@@ -5,7 +5,7 @@ import {
     raiseHTTPErrors,
     wrap,
     expectAttributes,
-} from '@youwol/http-primitives'
+} from '../../lib/primitives'
 import { NewAssetResponse } from '../../lib/assets-gateway'
 import { mergeMap, take, tap } from 'rxjs/operators'
 import { forkJoin, Observable } from 'rxjs'

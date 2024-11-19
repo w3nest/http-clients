@@ -1,4 +1,4 @@
-import { onHTTPErrors } from '@youwol/http-primitives'
+import { onHTTPErrors } from '../../lib'
 import { AccountsClient } from '../../lib/accounts-backend'
 import '../common'
 import '../mock-requests'

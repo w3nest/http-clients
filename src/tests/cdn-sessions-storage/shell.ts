@@ -1,5 +1,5 @@
 import '../mock-requests'
-import { Json, raiseHTTPErrors } from '@youwol/http-primitives'
+import { Json, raiseHTTPErrors } from '../../lib/primitives'
 import { map, mergeMap } from 'rxjs/operators'
 import { Observable, of, OperatorFunction } from 'rxjs'
 import { CdnSessionsStorageClient } from '../../lib/cdn-sessions-storage'

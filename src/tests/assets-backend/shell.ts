@@ -17,7 +17,7 @@ import {
     UpsertAccessPolicyBody,
     UpsertAccessPolicyResponse,
 } from '../../lib/assets-backend'
-import { HTTPError, wrap } from '@youwol/http-primitives'
+import { HTTPError, wrap } from '../../lib'
 import { readFileSync } from 'fs'
 import { NewAssetResponse } from '../../lib/assets-gateway'
 

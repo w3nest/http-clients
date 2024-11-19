@@ -1,5 +1,5 @@
 import '../mock-requests'
-import { shell$ } from '../common'
+import { setup$, shell$ } from '../common'
 import {
     deleteProject,
     downloadZip,
@@ -17,7 +17,6 @@ import { tap } from 'rxjs/operators'
 import path from 'path'
 import { firstValueFrom, Subject } from 'rxjs'
 import * as fs from 'fs'
-import { LocalYouwol } from '@youwol/http-primitives'
 import { purgeDrive, trashItem } from '../treedb-backend'
 import { getAsset } from '../assets-backend'
 import { NewAssetResponse } from '../../lib/assets-gateway'
@@ -27,7 +26,7 @@ import { UploadResponse as CdnUploadResponse } from '../../lib/cdn-backend'
 
 beforeAll(async () => {
     await firstValueFrom(
-        LocalYouwol.setup$({
+        setup$({
             localOnly: true,
             authId: 'int_tests_yw-users@test-user',
         }),

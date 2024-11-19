@@ -1,5 +1,5 @@
 import '../mock-requests'
-import { shell$ } from '../common'
+import { setup$, shell$ } from '../common'
 import AdmZip from 'adm-zip'
 import {
     accessInfo,
@@ -21,14 +21,14 @@ import {
 } from './shell'
 import { AssetBase, QueryAccessInfoResponse } from '../../lib/assets-backend'
 import path from 'path'
-import { HTTPError, LocalYouwol } from '@youwol/http-primitives'
+import { HTTPError } from '../../lib/primitives'
 import { writeFileSync } from 'fs'
 import { firstValueFrom } from 'rxjs'
 
 jest.setTimeout(100 * 1000)
 beforeEach(async () => {
     await firstValueFrom(
-        LocalYouwol.setup$({
+        setup$({
             localOnly: true,
             authId: 'int_tests_yw-users@test-user',
         }),

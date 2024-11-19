@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { getPyYouwolBasePath, shell$ } from '../common'
+import { getPyYouwolBasePath, setup$, shell$ } from '../common'
 import '../mock-requests'
 import { get, getInfo, remove, updateMetadata, upload } from './shell'
 import { readFileSync } from 'fs'
@@ -8,14 +8,13 @@ import { firstValueFrom, from } from 'rxjs'
 import { mapTo, mergeMap, reduce, take, tap } from 'rxjs/operators'
 import { GetInfoResponse, UploadResponse } from '../../lib/files-backend'
 import { GetAssetResponse } from '../../lib/assets-backend'
-import { LocalYouwol } from '@youwol/http-primitives'
 import { NewAssetResponse } from '../../lib/assets-gateway'
 import { purgeDrive, trashItem } from '../treedb-backend'
 import { getAsset } from '../assets-backend'
 
 beforeAll(async () => {
     await firstValueFrom(
-        LocalYouwol.setup$({
+        setup$({
             localOnly: true,
             authId: 'int_tests_yw-users@test-user',
         }),

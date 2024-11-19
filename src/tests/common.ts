@@ -1,8 +1,12 @@
-import { raiseHTTPErrors, RootRouter } from '@youwol/http-primitives'
+import { raiseHTTPErrors, RootRouter } from '../lib/primitives'
 import { AssetsGatewayClient } from '../lib/assets-gateway'
 import { map } from 'rxjs/operators'
 import { Observable, OperatorFunction } from 'rxjs'
 import { GetDefaultDriveResponse } from '../lib/explorer-backend'
+
+import { Local } from '../lib'
+import { mergeMap } from 'rxjs/operators'
+import 'isomorphic-fetch'
 
 RootRouter.HostName = getPyYouwolBasePath()
 RootRouter.Headers = { 'py-youwol-local-only': 'true' }
@@ -139,4 +143,48 @@ export function newShellFromContext<TContext, TResp>(
     return newContext
         ? new Shell({ ...shell, context: newContext(shell, resp) })
         : shell
+}
+
+export function resetPyYouwolDbs$(headers: { [k: string]: string } = {}) {
+    return new Local.LocalClient(headers).admin.customCommands.doGet$({
+        name: 'reset',
+    })
+}
+
+export function setup$(
+    {
+        localOnly,
+        authId,
+        envId,
+        pyYouwolPort,
+    }: {
+        localOnly?: boolean
+        authId?: string
+        envId?: string
+        pyYouwolPort?: number
+    } = {
+        localOnly: true,
+        authId: 'int_tests_yw-users@test-user',
+        envId: 'prod',
+    },
+) {
+    RootRouter.HostName = `http://localhost:${pyYouwolPort || 2001}`
+    const headers = {
+        'py-youwol-local-only': localOnly ? 'true' : 'false',
+    }
+    RootRouter.Headers = headers
+
+    return Local.LocalClient.startWs$().pipe(
+        mergeMap(() =>
+            new Local.LocalClient().admin.environment.login$({
+                body: {
+                    authId: authId || 'int_tests_yw-users@test-user',
+                    envId: envId || 'prod',
+                },
+            }),
+        ),
+        mergeMap(() => {
+            return resetPyYouwolDbs$(headers)
+        }),
+    )
 }

@@ -1,11 +1,6 @@
 import { forkJoin, Observable } from 'rxjs'
 import { mergeMap, tap } from 'rxjs/operators'
-import {
-    HTTPError,
-    raiseHTTPErrors,
-    expectAttributes,
-    wrap,
-} from '@youwol/http-primitives'
+import { HTTPError, raiseHTTPErrors, expectAttributes, wrap } from '../../lib'
 import {
     expectAssetAttributes,
     mapToShell,

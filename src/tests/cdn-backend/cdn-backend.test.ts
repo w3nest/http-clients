@@ -1,5 +1,5 @@
 import path from 'path'
-import { expectAttributes, shell$ } from '../common'
+import { expectAttributes, setup$, shell$ } from '../common'
 import '../mock-requests'
 import {
     getPackageFolderContent,
@@ -14,14 +14,14 @@ import {
 } from './shell'
 import { tap } from 'rxjs/operators'
 import { readFileSync } from 'fs'
-import { onHTTPErrors, LocalYouwol } from '@youwol/http-primitives'
+import { onHTTPErrors } from '../../lib/primitives'
 import { GetAssetResponse } from '../../lib/assets-backend'
 import { GetLibraryInfoResponse } from '../../lib/cdn-backend'
 import { firstValueFrom } from 'rxjs'
 
 beforeAll(async () => {
     await firstValueFrom(
-        LocalYouwol.setup$({
+        setup$({
             localOnly: true,
             authId: 'int_tests_yw-users@test-user',
         }),

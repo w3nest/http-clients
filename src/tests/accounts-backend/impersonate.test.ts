@@ -1,4 +1,4 @@
-import { raiseHTTPErrors } from '@youwol/http-primitives'
+import { raiseHTTPErrors } from '../../lib'
 import { AccountsClient } from '../../lib/accounts-backend'
 import '../common'
 import '../mock-requests'

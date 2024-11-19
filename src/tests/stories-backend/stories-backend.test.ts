@@ -21,6 +21,7 @@ import {
 import {
     expectAssetAttributes,
     expectAttributes,
+    setup$,
     Shell,
     shell$,
 } from '../common'
@@ -36,12 +37,11 @@ import path from 'path'
 import { NewAssetResponse } from '../../lib/assets-gateway'
 import { purgeDrive, trashItem } from '../treedb-backend'
 import { getAsset } from '../assets-backend'
-import { LocalYouwol } from '@youwol/http-primitives'
 import { firstValueFrom } from 'rxjs'
 
 beforeAll(async () => {
     await firstValueFrom(
-        LocalYouwol.setup$({
+        setup$({
             localOnly: true,
             authId: 'int_tests_yw-users@test-user',
         }),
