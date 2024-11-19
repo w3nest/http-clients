@@ -1,5 +1,5 @@
 import '../mock-requests'
-import { HTTPError, raiseHTTPErrors, wrap } from '../../lib/primitives'
+import { HTTPError, raiseHTTPErrors } from '../../lib/primitives'
 import { NewAssetResponse } from '../../lib/assets-gateway'
 import { mergeMap } from 'rxjs/operators'
 import { Observable } from 'rxjs'
@@ -10,6 +10,7 @@ import {
     mapToShell,
     newShellFromContext,
     Shell,
+    wrap,
 } from '../common'
 import {
     UploadResponse,

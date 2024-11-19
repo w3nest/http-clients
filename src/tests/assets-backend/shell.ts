@@ -1,5 +1,5 @@
 import '../mock-requests'
-import { expectAttributes, Shell } from '../common'
+import { expectAttributes, Shell, wrap } from '../common'
 import {
     AddFilesResponse,
     AddImageResponse,
@@ -17,7 +17,7 @@ import {
     UpsertAccessPolicyBody,
     UpsertAccessPolicyResponse,
 } from '../../lib/assets-backend'
-import { HTTPError, wrap } from '../../lib'
+import { HTTPError } from '../../lib'
 import { readFileSync } from 'fs'
 import { NewAssetResponse } from '../../lib/assets-gateway'
 
