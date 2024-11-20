@@ -2,7 +2,7 @@ import { map } from 'rxjs/operators'
 import { AccountsClient } from '../accounts-backend'
 import { AssetsClient } from '../assets-backend'
 import { WebpmClient } from '../webpm'
-import { ExplorerClient } from '../explorer-backend'
+import { ExplorerClient } from '../explorer'
 import { FilesClient } from '../files-backend'
 import {
     CallerRequestOptions,
@@ -46,7 +46,7 @@ export class AssetsGatewayClient extends RootRouter {
         })
         this.explorer = new ExplorerClient({
             headers,
-            basePath: `/api/assets-gateway/treedb-backend`,
+            basePath: `/api/assets-gateway/explorer`,
             hostName,
         })
         this.assets = new AssetsClient({

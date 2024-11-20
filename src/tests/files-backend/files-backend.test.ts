@@ -9,7 +9,7 @@ import { mapTo, mergeMap, reduce, take, tap } from 'rxjs/operators'
 import { GetInfoResponse, UploadResponse } from '../../lib/files-backend'
 import { GetAssetResponse } from '../../lib/assets-backend'
 import { NewAssetResponse } from '../../lib/assets-gateway'
-import { purgeDrive, trashItem } from '../treedb-backend'
+import { purgeDrive, trashItem } from '../explorer'
 import { getAsset } from '../assets-backend'
 
 beforeAll(async () => {

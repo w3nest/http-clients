@@ -39,7 +39,7 @@ import {
     PurgeDriveResponse,
     BorrowResponse,
     GetDefaultDriveResponse,
-} from '../../lib/explorer-backend'
+} from '../../lib/explorer'
 
 export function expectDrive(drive: unknown) {
     expectAttributes(drive, ['driveId', 'groupId', 'name', 'metadata'])

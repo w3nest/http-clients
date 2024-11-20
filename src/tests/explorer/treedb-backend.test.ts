@@ -33,7 +33,7 @@ import {
     GetDefaultDriveResponse,
     GetDriveResponse,
     ItemBase,
-} from '../../lib/explorer-backend'
+} from '../../lib/explorer'
 import {
     accessInfo,
     createAsset,

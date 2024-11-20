@@ -7,7 +7,7 @@ import {
 import { AssetsGatewayClient } from '../lib/assets-gateway'
 import { filter, map, shareReplay, take, tap } from 'rxjs/operators'
 import { merge, Observable, OperatorFunction } from 'rxjs'
-import { GetDefaultDriveResponse } from '../lib/explorer-backend'
+import { GetDefaultDriveResponse } from '../lib/explorer'
 
 import { Local } from '../lib'
 import { mergeMap } from 'rxjs/operators'
