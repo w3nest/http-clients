@@ -32,7 +32,6 @@ config = ProjectConfig(
         runTime=RunTimeDeps(
             externals={
                 "rxjs": "^7.5.6",
-                "@youwol/http-primitives": "^0.2.0"
             },
         ),
         devTime={
@@ -42,7 +41,7 @@ config = ProjectConfig(
     bundles=Bundles(
         mainModule=MainModule(
             entryFile='./index.ts',
-            loadDependencies=["rxjs", "@youwol/http-primitives"]
+            loadDependencies=["rxjs"]
         )
     ),
     testConfig="https://github.com/youwol/integration-tests-conf",

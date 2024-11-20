@@ -1,17 +1,11 @@
 /* eslint-disable */
 const runTimeDependencies = {
     "externals": {
-        "@youwol/http-primitives": "^0.2.0",
         "rxjs": "^7.5.6"
     },
     "includedInBundle": {}
 }
 const externals = {
-    "@youwol/http-primitives": {
-        "commonjs": "@youwol/http-primitives",
-        "commonjs2": "@youwol/http-primitives",
-        "root": "@youwol/http-primitives_APIv02"
-    },
     "rxjs": {
         "commonjs": "rxjs",
         "commonjs2": "rxjs",
@@ -27,10 +21,6 @@ const externals = {
     }
 }
 const exportedSymbols = {
-    "@youwol/http-primitives": {
-        "apiKey": "02",
-        "exportedSymbol": "@youwol/http-primitives"
-    },
     "rxjs": {
         "apiKey": "7",
         "exportedSymbol": "rxjs"
@@ -40,8 +30,7 @@ const exportedSymbols = {
 const mainEntry : {entryFile: string,loadDependencies:string[]} = {
     "entryFile": "./index.ts",
     "loadDependencies": [
-        "rxjs",
-        "@youwol/http-primitives"
+        "rxjs"
     ]
 }
 
