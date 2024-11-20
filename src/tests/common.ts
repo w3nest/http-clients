@@ -207,7 +207,7 @@ export function newShellFromContext<TContext, TResp>(
 }
 
 export function resetPyYouwolDbs$(headers: { [k: string]: string } = {}) {
-    return new Local.LocalClient(headers).admin.customCommands.doGet$({
+    return new Local.LocalClient(headers).api.customCommands.doGet$({
         name: 'reset',
     })
 }
@@ -237,7 +237,7 @@ export function setup$(
 
     return Local.LocalClient.startWs$().pipe(
         mergeMap(() =>
-            new Local.LocalClient().admin.environment.login$({
+            new Local.LocalClient().api.environment.login$({
                 body: {
                     authId: authId || 'int_tests_yw-users@test-user',
                     envId: envId || 'prod',

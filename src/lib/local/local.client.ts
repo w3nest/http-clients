@@ -10,7 +10,7 @@ import { combineLatest, distinctUntilChanged, Observable } from 'rxjs'
 import { map, take } from 'rxjs/operators'
 
 import { ContextMessage, HealthzResponse, Label } from '../primitives'
-import { AdminRouter } from './routers/admin.router'
+import { ApiRouter } from './routers/api.router'
 import { PythonRouter } from './routers/python'
 
 export class WsRouter {
@@ -52,7 +52,7 @@ export class WsRouter {
 }
 
 export class LocalClient extends RootRouter {
-    public readonly admin: AdminRouter
+    public readonly api: ApiRouter
     public readonly python: PythonRouter
 
     static ws = new WsRouter()
@@ -66,7 +66,7 @@ export class LocalClient extends RootRouter {
             basePath: '',
             headers,
         })
-        this.admin = new AdminRouter(this, LocalClient.ws)
+        this.api = new ApiRouter(this, LocalClient.ws)
         this.python = new PythonRouter(this)
     }
 
