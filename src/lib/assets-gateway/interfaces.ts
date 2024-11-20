@@ -1,4 +1,4 @@
-import { GetAssetResponse } from '../assets-backend'
+import { GetAssetResponse } from '../assets'
 
 export type Json = Record<string, never>
 export type RawId = string

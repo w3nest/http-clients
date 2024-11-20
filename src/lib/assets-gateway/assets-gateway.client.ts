@@ -1,6 +1,6 @@
 import { map } from 'rxjs/operators'
 import { AccountsClient } from '../accounts-backend'
-import { AssetsClient } from '../assets-backend'
+import { AssetsClient } from '../assets'
 import { WebpmClient } from '../webpm'
 import { ExplorerClient } from '../explorer'
 import { FilesClient } from '../files-backend'
@@ -51,7 +51,7 @@ export class AssetsGatewayClient extends RootRouter {
         })
         this.assets = new AssetsClient({
             headers,
-            basePath: `/api/assets-gateway/assets-backend`,
+            basePath: `/api/assets-gateway/assets`,
             hostName,
         })
         this.accounts = new AccountsClient({

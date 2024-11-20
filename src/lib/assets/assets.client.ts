@@ -31,7 +31,7 @@ export class AssetsClient extends RootRouter {
         hostName?: string
     } = {}) {
         super({
-            basePath: basePath || '/api/assets-backend',
+            basePath: basePath || '/api/assets',
             headers,
             hostName,
         })

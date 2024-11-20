@@ -7,10 +7,10 @@ import { readFileSync } from 'fs'
 import { firstValueFrom, from } from 'rxjs'
 import { mapTo, mergeMap, reduce, take, tap } from 'rxjs/operators'
 import { GetInfoResponse, UploadResponse } from '../../lib/files-backend'
-import { GetAssetResponse } from '../../lib/assets-backend'
+import { GetAssetResponse } from '../../lib/assets'
 import { NewAssetResponse } from '../../lib/assets-gateway'
 import { purgeDrive, trashItem } from '../explorer'
-import { getAsset } from '../assets-backend'
+import { getAsset } from '../assets'
 
 beforeAll(async () => {
     await firstValueFrom(

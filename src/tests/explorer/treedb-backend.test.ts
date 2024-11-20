@@ -40,7 +40,7 @@ import {
     getAccessPolicy,
     getAsset,
     upsertAccessPolicy,
-} from '../assets-backend'
+} from '../assets'
 import { NewAssetResponse } from '../../lib/assets-gateway'
 import { firstValueFrom } from 'rxjs'
 

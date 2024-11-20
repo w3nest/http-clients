@@ -1,7 +1,7 @@
 export * as AssetsGateway from './assets-gateway'
 export * as Webpm from './webpm'
 export * as FilesBackend from './files-backend'
-export * as AssetsBackend from './assets-backend'
+export * as Assets from './assets'
 export * as CdnSessionsStorage from './cdn-sessions-storage'
 export * as Explorer from './explorer'
 export * as Accounts from './accounts-backend'

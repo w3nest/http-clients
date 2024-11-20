@@ -16,7 +16,7 @@ import {
     UpdateAssetResponse,
     UpsertAccessPolicyBody,
     UpsertAccessPolicyResponse,
-} from '../../lib/assets-backend'
+} from '../../lib/assets'
 import { HTTPError } from '../../lib'
 import { readFileSync } from 'fs'
 import { NewAssetResponse } from '../../lib/assets-gateway'

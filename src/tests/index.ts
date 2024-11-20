@@ -1,4 +1,4 @@
-export * as AssetsBackend from './assets-backend'
+export * as AssetsBackend from './assets'
 export * as Webpm from './webpm'
 export * as CdnSessionStorage from './cdn-sessions-storage'
 export * as FilesBackend from './files-backend'

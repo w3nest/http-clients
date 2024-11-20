@@ -19,7 +19,7 @@ import {
     upsertAccessPolicy,
     getZipFiles,
 } from './shell'
-import { AssetBase, QueryAccessInfoResponse } from '../../lib/assets-backend'
+import { AssetBase, QueryAccessInfoResponse } from '../../lib/assets'
 import path from 'path'
 import { HTTPError } from '../../lib/primitives'
 import { writeFileSync } from 'fs'
@@ -43,7 +43,7 @@ test('happy path', async () => {
             kind: 'test-kind',
             name: 'test asset',
             description: 'an asset for test',
-            tags: ['test', 'assets-backend'],
+            tags: ['test', 'assets'],
             images: [],
             thumbnails: [],
             groupId: '',
@@ -260,7 +260,7 @@ test('access-info', async () => {
             kind: 'test-kind',
             name: 'test asset',
             description: 'an asset for test',
-            tags: ['test', 'assets-backend'],
+            tags: ['test', 'assets'],
             images: [],
             thumbnails: [],
             groupId: '',
@@ -330,7 +330,7 @@ test('asset with raw-data', async () => {
             kind: 'test-kind',
             name: 'test asset',
             description: 'an asset for test',
-            tags: ['test', 'assets-backend'],
+            tags: ['test', 'assets'],
             images: [],
             thumbnails: [],
             groupId: '',
