@@ -1,5 +1,5 @@
 export * as AssetsGateway from './assets-gateway'
-export * as CdnBackend from './cdn-backend'
+export * as Webpm from './webpm'
 export * as FilesBackend from './files-backend'
 export * as AssetsBackend from './assets-backend'
 export * as CdnSessionsStorage from './cdn-sessions-storage'

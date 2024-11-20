@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators'
 import { AccountsClient } from '../accounts-backend'
 import { AssetsClient } from '../assets-backend'
-import { CdnClient } from '../cdn-backend'
+import { WebpmClient } from '../webpm'
 import { ExplorerClient } from '../explorer-backend'
 import { FilesClient } from '../files-backend'
 import {
@@ -15,7 +15,7 @@ import { MiscRouter } from './routers'
 
 export class AssetsGatewayClient extends RootRouter {
     public readonly misc: MiscRouter
-    public readonly cdn: CdnClient
+    public readonly webpm: WebpmClient
     public readonly files: FilesClient
     public readonly explorer: ExplorerClient
     public readonly assets: AssetsClient
@@ -34,9 +34,9 @@ export class AssetsGatewayClient extends RootRouter {
             hostName,
         })
         this.misc = new MiscRouter(this)
-        this.cdn = new CdnClient({
+        this.webpm = new WebpmClient({
             headers,
-            basePath: `/api/assets-gateway/cdn-backend`,
+            basePath: `/api/assets-gateway/webpm`,
             hostName,
         })
         this.files = new FilesClient({

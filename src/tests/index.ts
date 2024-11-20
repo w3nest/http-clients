@@ -1,5 +1,5 @@
 export * as AssetsBackend from './assets-backend'
-export * as CdnBackend from './cdn-backend'
+export * as Webpm from './webpm'
 export * as CdnSessionStorage from './cdn-sessions-storage'
 export * as FilesBackend from './files-backend'
 export * as ExplorerBackend from './treedb-backend'

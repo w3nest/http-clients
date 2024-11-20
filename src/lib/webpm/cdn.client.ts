@@ -17,7 +17,7 @@ import {
 import { NewAssetResponse } from '../assets-gateway'
 import { Observable } from 'rxjs'
 
-export class CdnClient extends RootRouter {
+export class WebpmClient extends RootRouter {
     constructor({
         headers,
         basePath,
@@ -28,7 +28,7 @@ export class CdnClient extends RootRouter {
         hostName?: string
     } = {}) {
         super({
-            basePath: basePath || '/api/cdn-backend',
+            basePath: basePath || '/api/webpm',
             headers,
             hostName,
         })

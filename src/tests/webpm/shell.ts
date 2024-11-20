@@ -9,7 +9,7 @@ import {
     mapToShell,
     Shell,
 } from '../common'
-import { GetLibraryInfoResponse } from '../../lib/cdn-backend'
+import { GetLibraryInfoResponse } from '../../lib/webpm'
 
 type ManagedError = 'ManagedError'
 
@@ -23,7 +23,7 @@ export function uploadPackage<T>(
                 const buffer = readFileSync(filePath)
                 const filename = filePath.split('/').slice(-1)[0]
                 const arraybuffer = Uint8Array.from(buffer).buffer
-                return shell.assetsGtw.cdn
+                return shell.assetsGtw.webpm
                     .upload$({
                         body: {
                             fileName: filename,
@@ -51,7 +51,7 @@ export function uploadPackages<T>(filePaths: string[]) {
                     const buffer = readFileSync(filePath)
                     const filename = filePath.split('/').slice(-1)[0]
                     const arraybuffer = Uint8Array.from(buffer).buffer
-                    return shell.assetsGtw.cdn
+                    return shell.assetsGtw.webpm
                         .upload$({
                             body: {
                                 fileName: filename,
@@ -80,13 +80,15 @@ export function downloadPackage<T>(
     return (source$: Observable<Shell<T>>) => {
         return source$.pipe(
             mergeMap((shell) => {
-                return shell.assetsGtw.cdn.downloadLibrary$(input(shell)).pipe(
-                    raiseHTTPErrors(),
-                    tap((resp) => {
-                        expect(resp).toBeInstanceOf(Blob)
-                    }),
-                    mapToShell(shell, cb),
-                )
+                return shell.assetsGtw.webpm
+                    .downloadLibrary$(input(shell))
+                    .pipe(
+                        raiseHTTPErrors(),
+                        tap((resp) => {
+                            expect(resp).toBeInstanceOf(Blob)
+                        }),
+                        mapToShell(shell, cb),
+                    )
             }),
         )
     }
@@ -106,7 +108,7 @@ export function getInfo<T>(
     return (source$: Observable<Shell<T>>) => {
         return source$.pipe(
             mergeMap((shell) => {
-                return shell.assetsGtw.cdn.getLibraryInfo$(input(shell)).pipe(
+                return shell.assetsGtw.webpm.getLibraryInfo$(input(shell)).pipe(
                     onError,
                     map((resp) => {
                         if (resp == 'ManagedError') {
@@ -137,7 +139,7 @@ export function getVersionInfo<T>(
     return (source$: Observable<Shell<T>>) => {
         return source$.pipe(
             mergeMap((shell) => {
-                return shell.assetsGtw.cdn.getVersionInfo$(input(shell)).pipe(
+                return shell.assetsGtw.webpm.getVersionInfo$(input(shell)).pipe(
                     raiseHTTPErrors(),
                     tap((resp) => {
                         expectAttributes(resp, [
@@ -169,7 +171,7 @@ export function getPackageFolderContent<T>(
     return (source$: Observable<Shell<T>>) => {
         return source$.pipe(
             mergeMap((shell) => {
-                return shell.assetsGtw.cdn.queryExplorer$(input(shell)).pipe(
+                return shell.assetsGtw.webpm.queryExplorer$(input(shell)).pipe(
                     raiseHTTPErrors(),
                     tap((resp) => {
                         expectAttributes(resp, ['folders', 'files'])
@@ -191,7 +193,7 @@ export function getEntryPoint<T>(
     return (source$: Observable<Shell<T>>) => {
         return source$.pipe(
             mergeMap((shell) => {
-                return shell.assetsGtw.cdn
+                return shell.assetsGtw.webpm
                     .getEntryPoint$(input(shell))
                     .pipe(raiseHTTPErrors(), mapToShell(shell, cb))
             }),
@@ -210,7 +212,7 @@ export function getResource<T>(
     return (source$: Observable<Shell<T>>) => {
         return source$.pipe(
             mergeMap((shell) => {
-                return shell.assetsGtw.cdn
+                return shell.assetsGtw.webpm
                     .getResource$(input(shell))
                     .pipe(raiseHTTPErrors(), mapToShell(shell, cb))
             }),
@@ -227,7 +229,7 @@ export function deleteLibrary<T>(
     return (source$: Observable<Shell<T>>) => {
         return source$.pipe(
             mergeMap((shell) => {
-                return shell.assetsGtw.cdn.deleteLibrary$(input(shell)).pipe(
+                return shell.assetsGtw.webpm.deleteLibrary$(input(shell)).pipe(
                     raiseHTTPErrors(),
                     tap((resp) => {
                         expectAttributes(resp, ['deletedVersionsCount'])

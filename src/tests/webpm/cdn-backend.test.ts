@@ -16,7 +16,7 @@ import { tap } from 'rxjs/operators'
 import { readFileSync } from 'fs'
 import { onHTTPErrors } from '../../lib/primitives'
 import { GetAssetResponse } from '../../lib/assets-backend'
-import { GetLibraryInfoResponse } from '../../lib/cdn-backend'
+import { GetLibraryInfoResponse } from '../../lib/webpm'
 import { firstValueFrom } from 'rxjs'
 
 beforeAll(async () => {
