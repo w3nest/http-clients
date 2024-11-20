@@ -5,14 +5,14 @@ import {
     RootRouter,
 } from '../primitives'
 
-export class CdnSessionsStorageClient extends RootRouter {
+export class WebpmSessionsStorageClient extends RootRouter {
     constructor({
         headers,
     }: {
         headers?: { [_key: string]: string }
     } = {}) {
         super({
-            basePath: '/api/cdn-sessions-storage',
+            basePath: '/api/webpm-sessions-storage',
             headers,
         })
     }

@@ -1,6 +1,6 @@
 export * as AssetsBackend from './assets'
 export * as Webpm from './webpm'
-export * as CdnSessionStorage from './cdn-sessions-storage'
+export * as CdnSessionStorage from './webpm-sessions-storage'
 export * as FilesBackend from './files-backend'
 export * as ExplorerBackend from './explorer'
 export * from './common'

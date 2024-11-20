@@ -2,12 +2,12 @@ import '../mock-requests'
 import { Json, raiseHTTPErrors } from '../../lib/primitives'
 import { map, mergeMap } from 'rxjs/operators'
 import { Observable, of, OperatorFunction } from 'rxjs'
-import { CdnSessionsStorageClient } from '../../lib/cdn-sessions-storage'
+import { WebpmSessionsStorageClient } from '../../lib/webpm-sessions-storage'
 
 export class Shell<T> {
-    client: CdnSessionsStorageClient
+    client: WebpmSessionsStorageClient
     context: T
-    constructor(params: { client: CdnSessionsStorageClient; context?: T }) {
+    constructor(params: { client: WebpmSessionsStorageClient; context?: T }) {
         Object.assign(this, params)
     }
 }
@@ -33,7 +33,7 @@ export function mapToShell<T, T1>(
 }
 
 export function shell$<T>(context?: T) {
-    const client = new CdnSessionsStorageClient()
+    const client = new WebpmSessionsStorageClient()
     return of(
         new Shell<T>({
             client,
