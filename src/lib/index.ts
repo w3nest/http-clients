@@ -1,6 +1,6 @@
 export * as AssetsGateway from './assets-gateway'
 export * as Webpm from './webpm'
-export * as FilesBackend from './files-backend'
+export * as Files from './files'
 export * as Assets from './assets'
 export * as WebpmSessionsStorage from './webpm-sessions-storage'
 export * as Explorer from './explorer'

@@ -17,7 +17,7 @@ import {
     UpdateMetadataBody,
     RemoveResponse,
     GetInfoResponse,
-} from '../../lib/files-backend'
+} from '../../lib/files'
 
 export function upload<TContext>({
     inputs,

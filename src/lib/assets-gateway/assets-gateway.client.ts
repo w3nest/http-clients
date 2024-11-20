@@ -3,7 +3,7 @@ import { AccountsClient } from '../accounts-backend'
 import { AssetsClient } from '../assets'
 import { WebpmClient } from '../webpm'
 import { ExplorerClient } from '../explorer'
-import { FilesClient } from '../files-backend'
+import { FilesClient } from '../files'
 import {
     CallerRequestOptions,
     HTTPResponse$,
@@ -41,7 +41,7 @@ export class AssetsGatewayClient extends RootRouter {
         })
         this.files = new FilesClient({
             headers,
-            basePath: `/api/assets-gateway/files-backend`,
+            basePath: `/api/assets-gateway/files`,
             hostName,
         })
         this.explorer = new ExplorerClient({
