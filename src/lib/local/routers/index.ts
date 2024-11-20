@@ -1,4 +1,4 @@
-export * as CustomCommands from './custom-commands'
+export * as Commands from './commands'
 export * as Environment from './environment'
 export * as Components from './components'
 export * as Projects from './projects'

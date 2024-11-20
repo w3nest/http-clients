@@ -26,11 +26,11 @@ class WebSocketAPI {
     }
 }
 
-export class CustomCommandsRouter extends Router {
+export class CommandsRouter extends Router {
     public readonly webSocket: WebSocketAPI
 
     constructor(parent: Router, ws: WsRouter) {
-        super(parent.headers, `${parent.basePath}/custom-commands`)
+        super(parent.headers, `${parent.basePath}/commands`)
         this.webSocket = new WebSocketAPI(ws)
     }
 
