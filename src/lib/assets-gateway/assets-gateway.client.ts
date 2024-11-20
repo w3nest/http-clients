@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators'
-import { AccountsClient } from '../accounts-backend'
+import { AccountsClient } from '../accounts'
 import { AssetsClient } from '../assets'
 import { WebpmClient } from '../webpm'
 import { ExplorerClient } from '../explorer'

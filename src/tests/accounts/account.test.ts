@@ -1,5 +1,5 @@
 import { onHTTPErrors } from '../../lib'
-import { AccountsClient } from '../../lib/accounts-backend'
+import { AccountsClient } from '../../lib/accounts'
 import '../common'
 import '../mock-requests'
 import { firstValueFrom } from 'rxjs'

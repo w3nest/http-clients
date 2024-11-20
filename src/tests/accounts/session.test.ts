@@ -1,5 +1,5 @@
 import { raiseHTTPErrors } from '../../lib/primitives'
-import { AccountsClient } from '../../lib/accounts-backend'
+import { AccountsClient } from '../../lib/accounts'
 import {
     GetUserInfoResponse,
     QueryGroupsResponse,
