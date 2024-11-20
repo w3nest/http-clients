@@ -1,7 +1,7 @@
 import { Router } from '../../primitives'
 import { CustomCommandsRouter } from './custom-commands'
 import { EnvironmentRouter } from './environment'
-import { LocalCdnRouter } from './local-cdn'
+import { ComponentsRouter } from './components'
 import { ProjectsRouter } from './projects'
 import { SystemRouter } from './system'
 import { WsRouter } from '..'
@@ -11,7 +11,7 @@ export class ApiRouter extends Router {
     public readonly environment: EnvironmentRouter
     public readonly projects: ProjectsRouter
     public readonly system: SystemRouter
-    public readonly localCdn: LocalCdnRouter
+    public readonly components: ComponentsRouter
 
     constructor(parent: Router, ws: WsRouter) {
         super(parent.headers, `${parent.basePath}/api`)
@@ -19,6 +19,6 @@ export class ApiRouter extends Router {
         this.environment = new EnvironmentRouter(this, ws)
         this.projects = new ProjectsRouter(this, ws)
         this.system = new SystemRouter(this, ws)
-        this.localCdn = new LocalCdnRouter(this, ws)
+        this.components = new ComponentsRouter(this, ws)
     }
 }

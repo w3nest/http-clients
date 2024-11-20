@@ -1,6 +1,6 @@
 export * as CustomCommands from './custom-commands'
 export * as Environment from './environment'
-export * as LocalCdn from './local-cdn'
+export * as Components from './components'
 export * as Projects from './projects'
 export * as System from './system'
 export * as Python from './python'

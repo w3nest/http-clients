@@ -90,11 +90,11 @@ class WebSocketAPI {
     }
 }
 
-export class LocalCdnRouter extends Router {
+export class ComponentsRouter extends Router {
     public readonly webSocket: WebSocketAPI
 
     constructor(parent: Router, ws: WsRouter) {
-        super(parent.headers, `${parent.basePath}/local-cdn`)
+        super(parent.headers, `${parent.basePath}/components`)
         this.webSocket = new WebSocketAPI(ws)
     }
 
