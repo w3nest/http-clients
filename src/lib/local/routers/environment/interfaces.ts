@@ -97,15 +97,15 @@ export interface Connection {
     envId: string
     authId: string
 }
-export interface YouwolEnvironment {
+export interface Environment {
     commands: { [key: string]: Command }
     currentConnection: Connection
     customMiddlewares: unknown[]
     httpPort: number
     pathsBook: PathsBook
     projects?: Projects
-    proxiedBackends: ProxiedBackend[]
-    proxiedEsmServers: ProxiedEsmServer[]
+    proxiedBackends: { store: ProxiedBackend[] }
+    proxiedEsmServers: { store: ProxiedEsmServer[] }
     remotes: CloudEnvironment[]
 }
 
@@ -145,32 +145,9 @@ export interface RemoteGatewayInfo {
     connected: boolean
 }
 
-export interface EnvironmentStatusResponse {
-    /**
-     * @deprecated
-     */
-    configuration: YouwolEnvironment
-    youwolEnvironment: YouwolEnvironment
-    /**
-     * @deprecated
-     */
-    users: string[]
-    /**
-     * @deprecated
-     */
-    userInfo: UserInfo
-    /**
-     * @deprecated
-     */
-    remoteGatewayInfo?: RemoteGatewayInfo
-    /**
-     * @deprecated
-     */
-    remotesInfo: RemoteGatewayInfo[]
-}
-export type GetEnvironmentStatusResponse = EnvironmentStatusResponse
+export type EnvironmentStatusResponse = Environment
 
-export type SwitchProfileResponse = EnvironmentStatusResponse
+export type SwitchProfileResponse = Environment
 
 export interface CustomDispatch {
     type: string

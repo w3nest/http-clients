@@ -13,7 +13,6 @@ import {
     ClearBrowserCacheBody,
     ClearBrowserCacheResponse,
     EnvironmentStatusResponse,
-    GetEnvironmentStatusResponse,
     LoginResponse,
     QueryCowSayResponse,
     QueryCustomDispatchesResponse,
@@ -99,7 +98,7 @@ export class EnvironmentRouter extends Router {
         callerOptions,
     }: {
         callerOptions?: CallerRequestOptions
-    } = {}): HTTPResponse$<GetEnvironmentStatusResponse> {
+    } = {}): HTTPResponse$<EnvironmentStatusResponse> {
         return this.send$({
             command: 'query',
             path: `/status`,
