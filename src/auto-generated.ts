@@ -43,7 +43,7 @@ const entries = {
 export const setup = {
     name:'@w3nest/http-clients',
         assetId:'QHczbmVzdC9odHRwLWNsaWVudHM=',
-    version:'0.1.1',
+    version:'0.1.2-wip',
     shortDescription:"HTTP clients for the w3nest ecosystem.",
     developerDocumentation:'https://platform.youwol.com/apps/@youwol/cdn-explorer/latest?package=@w3nest/http-clients&tab=doc',
     npmPackage:'https://www.npmjs.com/package/@w3nest/http-clients',
@@ -89,7 +89,7 @@ export const setup = {
         const parameters = installParameters || {}
         const scripts = [
             ...(parameters.scripts || []),
-            `@w3nest/http-clients#0.1.1~dist/@w3nest/http-clients/${entry.name}.js`
+            `@w3nest/http-clients#0.1.2-wip~dist/@w3nest/http-clients/${entry.name}.js`
         ]
         const modules = [
             ...(parameters.modules || []),
