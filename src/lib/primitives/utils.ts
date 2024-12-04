@@ -452,3 +452,26 @@ export function uploadBlob(
     formData.append('file', file)
     return sendFormData({ url, formData, method, headers, callerOptions })
 }
+
+export function headersInitToDict(
+    headers?: HeadersInit,
+): Record<string, string> {
+    if (!headers) {
+        return {}
+    }
+    const result: Record<string, string> = {}
+
+    if (headers instanceof Headers) {
+        headers.forEach((value, key) => {
+            result[key] = value
+        })
+    } else if (Array.isArray(headers)) {
+        for (const [key, value] of headers) {
+            result[key] = value
+        }
+    } else {
+        Object.assign(result, headers) // If it's already a plain object
+    }
+
+    return result
+}

@@ -2,6 +2,7 @@ import { Observable } from 'rxjs'
 import {
     CallerRequestOptions,
     CommandType,
+    headersInitToDict,
     HTTPError,
     NativeRequestOptions,
     send$,
@@ -78,10 +79,10 @@ export class Router {
         }
 
         const headers = {
-            ...nativeRequestOptions.headers,
+            ...headersInitToDict(nativeRequestOptions.headers),
             ...this.headers,
             ...(callerOptions.headers ?? {}),
-        }
+        } as Record<string, string>
 
         return sendFormData({
             url: `${this.basePath}${path}`,
