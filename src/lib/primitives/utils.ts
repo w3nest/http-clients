@@ -1,15 +1,21 @@
 import { Observable, of, OperatorFunction, ReplaySubject, Subject } from 'rxjs'
 import { filter, map, mergeMap, tap } from 'rxjs/operators'
 
+const status400 = 400
 export type Empty = Record<string, never>
 
 export interface JsonMap {
     [member: string]: string | number | boolean | null | JsonArray | JsonMap
 }
 
-export type JsonArray = Array<
-    string | number | boolean | null | JsonArray | JsonMap
->
+export type JsonArray = (
+    | string
+    | number
+    | boolean
+    | null
+    | JsonArray
+    | JsonMap
+)[]
 
 export type Json = JsonMap | JsonArray | string | number | boolean | null
 
@@ -25,11 +31,13 @@ export type CommandType =
 
 export type HTTPResponse$<T> = Observable<T | HTTPError>
 
-export class HTTPError {
+export class HTTPError extends Error {
     constructor(
         public readonly status: number,
         public readonly body: Json,
-    ) {}
+    ) {
+        super(`Failed with status ${String(status)}: ${JSON.stringify(body)}`)
+    }
 }
 
 export function muteHTTPErrors<T>(
@@ -90,7 +98,7 @@ export function onHTTPErrors<T, V>(
 }
 
 export class RequestFollower {
-    public readonly channels$: Array<Subject<RequestEvent>>
+    public readonly channels$: Subject<RequestEvent>[]
     public readonly requestId: string
     public readonly commandType: CommandType
 
@@ -102,57 +110,58 @@ export class RequestFollower {
         channels$,
         commandType,
     }: {
-        requestId: string
-        channels$: Subject<RequestEvent> | Array<Subject<RequestEvent>>
+        requestId?: string
+        channels$: Subject<RequestEvent> | Subject<RequestEvent>[]
         commandType: CommandType
     }) {
-        this.requestId = requestId
+        this.requestId =
+            requestId ?? String(Math.floor(Math.random() * Math.pow(10, 6)))
         this.channels$ = Array.isArray(channels$) ? channels$ : [channels$]
         this.commandType = commandType
     }
 
     start(totalCount?: number) {
-        this.totalCount = totalCount
-        this.channels$.forEach((channel$) =>
+        this.totalCount = totalCount ?? -1
+        this.channels$.forEach((channel$) => {
             channel$.next({
                 requestId: this.requestId,
                 step: 'started',
                 transferredCount: 0,
                 totalCount: this.totalCount,
                 commandType: this.commandType,
-            }),
-        )
+            })
+        })
     }
 
     progressTo(transferredCount: number, totalCount?: number) {
-        this.totalCount = totalCount != undefined ? totalCount : this.totalCount
+        this.totalCount = totalCount ?? this.totalCount
         this.transferredCount = transferredCount
-        this.channels$.forEach((channel$) =>
+        this.channels$.forEach((channel$) => {
             channel$.next({
                 requestId: this.requestId,
                 step:
-                    this.totalCount != undefined &&
-                    this.transferredCount == this.totalCount
+                    this.totalCount !== -1 &&
+                    this.transferredCount === this.totalCount
                         ? 'processing'
                         : 'transferring',
                 transferredCount: this.transferredCount,
                 totalCount: this.totalCount,
                 commandType: this.commandType,
-            }),
-        )
+            })
+        })
     }
 
     end() {
         this.transferredCount = this.totalCount
-        this.channels$.forEach((channel$) =>
+        this.channels$.forEach((channel$) => {
             channel$.next({
                 requestId: this.requestId,
                 step: 'finished',
                 transferredCount: this.transferredCount,
                 totalCount: this.totalCount,
                 commandType: this.commandType,
-            }),
-        )
+            })
+        })
     }
 }
 
@@ -168,7 +177,7 @@ export interface RequestMonitoring {
     /**
      * Request followers
      */
-    channels$?: Subject<RequestEvent> | Array<Subject<RequestEvent>>
+    channels$?: Subject<RequestEvent> | Subject<RequestEvent>[]
 
     /**
      * request label used in the events emitted in events$
@@ -185,22 +194,22 @@ export interface NativeRequestOptions extends RequestInit {
     json?: unknown
 }
 
-function processResponse(response) {
+function processResponse(response: Response) {
     if (!response.headers.has('content-type')) {
         return response.ok ? {} : new HTTPError(response.status, null)
     }
 
     const contentType = response.headers.get('content-type')
 
-    if (contentType.startsWith('application/json')) {
+    if (contentType?.startsWith('application/json')) {
         // e.g. 'application/json', 'application/json; charset=utf-8', ...
-        return response.json().then((data) => {
+        return response.json().then((data: Record<string, unknown>) => {
             return response.ok
                 ? data
                 : new HTTPError(response.status, data as Json)
         })
     }
-    if (contentType.startsWith('text/')) {
+    if (contentType?.startsWith('text/')) {
         return response.text().then((data) => {
             return response.ok
                 ? data
@@ -222,7 +231,9 @@ export function request$<T = unknown>(request: Request) {
                 observer.next(data as T)
                 observer.complete()
             })
-            .catch((err) => observer.error(err))
+            .catch((err: unknown) => {
+                observer.error(err)
+            })
     })
 }
 
@@ -232,13 +243,14 @@ export function send$<T>(
     nativeOptions?: NativeRequestOptions,
     monitoring?: RequestMonitoring,
 ): Observable<T | HTTPError> {
-    monitoring = monitoring || {}
-    nativeOptions = nativeOptions || {}
+    monitoring ??= {}
+    nativeOptions ??= {}
 
     const { requestId, channels$ } = monitoring
 
     if (nativeOptions.json) {
         nativeOptions.body = JSON.stringify(nativeOptions.json)
+        // noinspection ConditionalExpressionWithIdenticalBranchesJS
         nativeOptions.headers = nativeOptions.headers
             ? { ...nativeOptions.headers, 'content-type': 'application/json' }
             : { 'content-type': 'application/json' }
@@ -250,32 +262,36 @@ export function send$<T>(
     }
 
     const follower = new RequestFollower({
-        requestId: requestId || path,
+        requestId: requestId ?? path,
         channels$,
         commandType,
     })
 
     return of({}).pipe(
-        tap(() => follower.start(1)),
+        tap(() => {
+            follower.start(1)
+        }),
         mergeMap(() => request$(request)),
-        tap(() => follower.end()),
+        tap(() => {
+            follower.end()
+        }),
     ) as Observable<T | HTTPError>
 }
 
 export function downloadBlob(
     url: string,
     fileId: string,
-    headers: { [_key: string]: string },
+    headers: Record<string, string>,
     callerOptions?: CallerRequestOptions,
     total?: number,
 ): Observable<Blob | HTTPError> {
-    callerOptions = callerOptions || {}
-    const { requestId, channels$ } = callerOptions.monitoring || {}
+    callerOptions ??= {}
+    const { requestId, channels$ } = callerOptions.monitoring ?? {}
 
     const follower =
         channels$ &&
         new RequestFollower({
-            requestId: requestId || fileId,
+            requestId: requestId ?? fileId,
             channels$,
             commandType: 'download',
         })
@@ -286,7 +302,7 @@ export function downloadBlob(
     xhr.open('GET', url)
     const allHeaders = {
         ...headers,
-        ...(callerOptions.headers || {}),
+        ...(callerOptions.headers ?? {}),
     }
     Object.entries(allHeaders).forEach(([key, val]: [string, string]) => {
         xhr.setRequestHeader(key, val)
@@ -294,14 +310,23 @@ export function downloadBlob(
 
     xhr.responseType = 'blob'
 
-    xhr.onloadstart = (event) =>
-        follower && follower.start(total || event.total)
+    xhr.onloadstart = (event) => {
+        if (follower) {
+            follower.start(total ?? event.total)
+        }
+    }
 
-    xhr.onprogress = (event) => follower && follower.progressTo(event.loaded)
+    xhr.onprogress = (event) => {
+        if (follower) {
+            follower.progressTo(event.loaded)
+        }
+    }
 
     xhr.onload = () => {
-        follower && follower.end()
-        if (xhr.status >= 400) {
+        if (follower) {
+            follower.end()
+        }
+        if (xhr.status >= status400) {
             response$.next(
                 new HTTPError(xhr.status, {
                     statusText: xhr.statusText,
@@ -309,7 +334,7 @@ export function downloadBlob(
             )
         }
 
-        response$.next(xhr.response)
+        response$.next(xhr.response as Blob)
     }
     xhr.send()
     return response$
@@ -319,14 +344,16 @@ function camelCaseToKebabCase(str: string) {
     return str.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
 }
 
-function queryParametersToUrlSuffix(queryParameters: { [k: string]: string }) {
-    return Object.entries(queryParameters || {})
-        .filter(([_, v]) => v != undefined)
-        .map(([k, v]) => `${camelCaseToKebabCase(k)}=${v}&`)
+function queryParametersToUrlSuffix(
+    queryParameters?: Record<string, string | undefined>,
+) {
+    return Object.entries(queryParameters ?? {})
+        .filter(([, v]) => v !== undefined)
+        .map(([k, v]: [string, string]) => `${camelCaseToKebabCase(k)}=${v}&`)
         .reduce((acc, e) => `${acc}${e}`, '')
 }
 
-function setHeadersXHR(xhr: XMLHttpRequest, headers: { [k: string]: string }) {
+function setHeadersXHR(xhr: XMLHttpRequest, headers: Record<string, string>) {
     Object.entries(headers).forEach(([key, val]: [string, string]) => {
         xhr.setRequestHeader(key, val)
     })
@@ -337,22 +364,28 @@ function instrumentXHR(
     response: Subject<unknown>,
     follower?: RequestFollower,
 ) {
-    follower &&
-        (xhr.onloadstart = (event) => follower && follower.start(event.total))
-
-    follower &&
-        (xhr.upload.onprogress = (event) => {
-            follower && follower.progressTo(event.loaded, event.total)
-        })
+    if (follower) {
+        xhr.onloadstart = (event) => {
+            follower.start(event.total)
+        }
+        xhr.upload.onprogress = (event) => {
+            follower.progressTo(event.loaded, event.total)
+        }
+    }
 
     xhr.onload = () => {
         if (xhr.readyState === 4) {
-            if (xhr.status < 400) {
-                follower && follower.end()
+            if (xhr.status < status400) {
+                if (follower) {
+                    follower.end()
+                }
                 response.next(JSON.parse(xhr.responseText))
             } else {
                 response.next(
-                    new HTTPError(xhr.status, JSON.parse(xhr.responseText)),
+                    new HTTPError(
+                        xhr.status,
+                        JSON.parse(xhr.responseText) as Json,
+                    ),
                 )
             }
         }
@@ -368,17 +401,17 @@ export function sendFormData({
     callerOptions,
 }: {
     url: string
-    queryParameters?: { [_k: string]: string }
+    queryParameters?: Record<string, string>
     formData: FormData
     method: 'PUT' | 'POST'
-    headers
+    headers: Record<string, string>
     callerOptions: CallerRequestOptions
-}) {
-    const { channels$ } = callerOptions.monitoring || {}
+}): Observable<unknown> {
+    const { channels$ } = callerOptions.monitoring ?? {}
     const follower =
         channels$ &&
         new RequestFollower({
-            requestId: callerOptions.monitoring.requestId,
+            requestId: callerOptions.monitoring?.requestId,
             channels$,
             commandType: 'upload',
         })
@@ -386,18 +419,18 @@ export function sendFormData({
     const xhr = new XMLHttpRequest()
     const response = new ReplaySubject<unknown>(1)
 
-    const params = queryParametersToUrlSuffix(queryParameters || {})
+    const params = queryParametersToUrlSuffix(queryParameters ?? {})
     url = queryParameters ? `${url}?${params}` : url
     xhr.open(method, url, true)
     setHeadersXHR(xhr, {
         ...headers,
-        ...(callerOptions.headers || {}),
+        ...(callerOptions.headers ?? {}),
     })
 
     instrumentXHR(xhr, response, follower)
     xhr.send(formData)
     return response.pipe(
-        map((resp) => {
+        map((resp: Response | Error) => {
             if (resp instanceof Error) {
                 throw resp
             }
@@ -411,9 +444,9 @@ export function uploadBlob(
     fileName: string,
     method: 'PUT' | 'POST',
     blob: Blob,
-    headers,
+    headers: Record<string, string>,
     callerOptions: CallerRequestOptions = {},
-): Observable<unknown | HTTPError> {
+): Observable<unknown> {
     const file = new File([blob], fileName, { type: blob.type })
     const formData = new FormData()
     formData.append('file', file)

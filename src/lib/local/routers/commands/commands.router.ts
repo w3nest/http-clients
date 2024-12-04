@@ -5,7 +5,6 @@ import {
     Json,
     WebSocketResponse$,
     filterCtxMessage,
-    Label,
 } from '../../../primitives'
 
 import { WsRouter } from '../..'
@@ -17,9 +16,9 @@ class WebSocketAPI {
 
     log$(
         filters: { commandName?: string; method?: Method } = {},
-    ): WebSocketResponse$<unknown, Label> {
+    ): WebSocketResponse$<unknown> {
         return this.ws.log$.pipe(
-            filterCtxMessage<unknown, Label>({
+            filterCtxMessage({
                 withAttributes: { ...filters, topic: 'commands' },
             }),
         )

@@ -5,7 +5,6 @@ import {
     WebSocketResponse$,
     filterCtxMessage,
     GetFileContentResponse,
-    Label,
 } from '../../../primitives'
 
 import {
@@ -26,9 +25,9 @@ class WebSocketAPI {
 
     status$(
         filters: { profile?: string } = {},
-    ): WebSocketResponse$<EnvironmentStatusResponse, Label> {
+    ): WebSocketResponse$<EnvironmentStatusResponse> {
         return this.ws.data$.pipe(
-            filterCtxMessage<EnvironmentStatusResponse, Label>({
+            filterCtxMessage<EnvironmentStatusResponse>({
                 withLabels: ['EnvironmentStatusResponse'],
                 withAttributes: filters,
             }),
@@ -39,7 +38,7 @@ class WebSocketAPI {
         filters: { proxyUid?: string; package?: string; version?: string } = {},
     ) {
         return this.ws.log$.pipe(
-            filterCtxMessage<unknown, Label>({
+            filterCtxMessage({
                 withLabels: ['Label.ESM_SERVER', 'Label.STD_OUTPUT'],
                 withAttributes: filters,
             }),
@@ -49,7 +48,7 @@ class WebSocketAPI {
         filters: { proxyUid?: string; package?: string; version?: string } = {},
     ) {
         return this.ws.log$.pipe(
-            filterCtxMessage<unknown, Label>({
+            filterCtxMessage({
                 withLabels: ['Label.DISPATCH_ESM_SERVER'],
                 withAttributes: filters,
             }),

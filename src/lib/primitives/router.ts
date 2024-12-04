@@ -10,7 +10,7 @@ import {
 
 export class Router {
     constructor(
-        public readonly headers: { [key: string]: string },
+        public readonly headers: Record<string, string>,
         public readonly basePath: string,
     ) {}
 
@@ -37,8 +37,8 @@ export class Router {
         nativeRequestOptions?: NativeRequestOptions
         callerOptions?: CallerRequestOptions
     }): Observable<TResponse | HTTPError> {
-        nativeRequestOptions = nativeRequestOptions || {}
-        callerOptions = callerOptions || {}
+        nativeRequestOptions ??= {}
+        callerOptions ??= {}
         if (!nativeRequestOptions.method) {
             nativeRequestOptions.method = Router.defaultMethodMapping[command]
         }
@@ -46,7 +46,7 @@ export class Router {
         const headers = {
             ...nativeRequestOptions.headers,
             ...this.headers,
-            ...(callerOptions.headers || {}),
+            ...(callerOptions.headers ?? {}),
         }
         return send$(
             command,
@@ -65,14 +65,14 @@ export class Router {
         callerOptions,
     }: {
         command: CommandType
-        queryParameters?: { [_k: string]: string }
+        queryParameters?: Record<string, string>
         path: string
         formData: FormData
         nativeRequestOptions?: NativeRequestOptions
         callerOptions?: CallerRequestOptions
     }) {
-        nativeRequestOptions = nativeRequestOptions || {}
-        callerOptions = callerOptions || {}
+        nativeRequestOptions ??= {}
+        callerOptions ??= {}
         if (!nativeRequestOptions.method) {
             nativeRequestOptions.method = Router.defaultMethodMapping[command]
         }
@@ -80,7 +80,7 @@ export class Router {
         const headers = {
             ...nativeRequestOptions.headers,
             ...this.headers,
-            ...(callerOptions.headers || {}),
+            ...(callerOptions.headers ?? {}),
         }
 
         return sendFormData({
@@ -95,17 +95,17 @@ export class Router {
 }
 
 export class RootRouter extends Router {
-    static Headers: { [key: string]: string } = {}
+    static Headers: Record<string, string> = {}
     static HostName = '' // By default, relative resolution is used. Otherwise, protocol + hostname
 
     constructor(params: {
         basePath: string
-        headers?: { [key: string]: string }
+        headers?: Record<string, string>
         hostName?: string
     }) {
         super(
-            { ...RootRouter.Headers, ...(params.headers || {}) },
-            `${params.hostName || RootRouter.HostName}${params.basePath}`,
+            { ...RootRouter.Headers, ...(params.headers ?? {}) },
+            `${params.hostName ?? RootRouter.HostName}${params.basePath}`,
         )
     }
 }

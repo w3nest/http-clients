@@ -9,7 +9,7 @@ import {
 import { combineLatest, distinctUntilChanged, Observable } from 'rxjs'
 import { map, take } from 'rxjs/operators'
 
-import { ContextMessage, HealthzResponse, Label } from '../primitives'
+import { ContextMessage, HealthzResponse } from '../primitives'
 import { ApiRouter } from './routers/api.router'
 import { PythonRouter } from './routers/python'
 
@@ -43,10 +43,10 @@ export class WsRouter {
             }),
         )
     }
-    public get log$(): WebSocketResponse$<unknown, Label> {
+    public get log$(): WebSocketResponse$<unknown> {
         return this._log.message$
     }
-    public get data$(): WebSocketResponse$<unknown, Label> {
+    public get data$(): WebSocketResponse$<unknown> {
         return this._data.message$
     }
 }
@@ -60,7 +60,7 @@ export class LocalClient extends RootRouter {
     constructor({
         headers,
     }: {
-        headers?: { [_key: string]: string }
+        headers?: Record<string, string>
     } = {}) {
         super({
             basePath: '',

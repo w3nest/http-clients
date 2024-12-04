@@ -54,7 +54,6 @@ files = [
     Path("src") / "auto-generated.ts",
     "README.md",
     "package.json",
-    "tsconfig.json",
     "jest.config.ts",
     "webpack.config.ts",
     ]

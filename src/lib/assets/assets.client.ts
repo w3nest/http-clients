@@ -26,12 +26,12 @@ export class AssetsClient extends RootRouter {
         basePath,
         hostName,
     }: {
-        headers?: { [_key: string]: string }
+        headers?: Record<string, string>
         basePath?: string
         hostName?: string
     } = {}) {
         super({
-            basePath: basePath || '/api/assets',
+            basePath: basePath ?? '/api/assets',
             headers,
             hostName,
         })
@@ -53,10 +53,9 @@ export class AssetsClient extends RootRouter {
         queryParameters?: { folderId?: string }
         callerOptions?: CallerRequestOptions
     }): HTTPResponse$<NewAssetResponse<Record<string, never>>> {
-        const suffix =
-            queryParameters && queryParameters.folderId
-                ? `?folder-id=${queryParameters.folderId}`
-                : ''
+        const suffix = queryParameters?.folderId
+            ? `?folder-id=${queryParameters.folderId}`
+            : ''
 
         return this.send$({
             command: 'create',

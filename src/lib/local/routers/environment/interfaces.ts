@@ -24,7 +24,7 @@ export interface PathsBook {
 export interface DeadlinedCache {
     value: unknown
     deadline: number
-    dependencies: { [key: string]: string }
+    dependencies: Record<string, string>
 }
 
 export interface K8sNodeInfo {
@@ -61,10 +61,10 @@ export interface K8sInstance {
 }
 
 export interface ProjectTemplate {
-    icon?: { [k: string]: unknown }
+    icon?: Record<string, unknown>
     type: string
     folder: string
-    parameters: { [k: string]: string }
+    parameters: Record<string, string>
 }
 
 export interface ProjectFinders {
@@ -98,7 +98,7 @@ export interface Connection {
     authId: string
 }
 export interface Environment {
-    commands: { [key: string]: Command }
+    commands: Record<string, Command>
     currentConnection: Connection
     customMiddlewares: unknown[]
     httpPort: number
@@ -110,7 +110,7 @@ export interface Environment {
 }
 
 export class ProxiedBackendConfiguration {
-    build: { [key: string]: string }
+    build: Record<string, string>
 }
 
 export class ProxiedBackend {
@@ -153,21 +153,22 @@ export interface CustomDispatch {
     type: string
     name: string
     activated?: boolean
-    parameters: { [k: string]: string }
+    parameters: Record<string, string>
 }
 
 export interface QueryCustomDispatchesResponse {
-    dispatches: { [k: string]: CustomDispatch[] }
+    dispatches: Record<string, CustomDispatch[]>
 }
 
 export type QueryCowSayResponse = string
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class UploadAssetResponse {}
 
 export interface BrowserCacheItem {
     key: string
     file: string
-    headers: { [k: string]: string }
+    headers: Record<string, string>
     expirationTime: number
 }
 export interface BrowserCacheStatusResponse {

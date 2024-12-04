@@ -6,7 +6,6 @@ import {
     filterCtxMessage,
     ContextMessage,
     GetFileContentResponse,
-    Label,
 } from '../../../primitives'
 
 import { filter } from 'rxjs/operators'
@@ -49,7 +48,7 @@ export type QueryRootLogsResponse = LogsResponse
 
 export type QueryLogsResponse = LogsResponse
 
-export type BackendLogsResponse = {
+export interface BackendLogsResponse {
     logs: LogResponse[]
     server_outputs: string[]
     install_outputs?: string[]
@@ -102,16 +101,16 @@ class WebSocketAPI {
 
     downloadEvent$(
         filters: { rawId?: string; kind?: Kind; type?: DownloadEventType } = {},
-    ): WebSocketResponse$<DownloadEvent, Label> {
+    ): WebSocketResponse$<DownloadEvent> {
         return this.ws.data$.pipe(
-            filterCtxMessage<DownloadEvent, Label>({
+            filterCtxMessage<DownloadEvent>({
                 withLabels: ['DownloadEvent'],
                 withAttributes: filters,
             }),
             filter((message: ContextMessage<DownloadEvent>) => {
                 return Object.entries(filters)
                     .map(([k, v]) => {
-                        return message.data[k] == v
+                        return message.data?.[k] === v
                     })
                     .reduce((acc, e) => acc && e, true)
             }),
@@ -123,16 +122,16 @@ class WebSocketAPI {
             name?: string
             version?: Kind
         } = {},
-    ): WebSocketResponse$<InstallBackendEvent, Label> {
+    ): WebSocketResponse$<InstallBackendEvent> {
         return this.ws.data$.pipe(
-            filterCtxMessage<InstallBackendEvent, Label>({
+            filterCtxMessage<InstallBackendEvent>({
                 withLabels: ['InstallBackendEvent'],
                 withAttributes: filters,
             }),
             filter((message: ContextMessage<InstallBackendEvent>) => {
                 return Object.entries(filters)
                     .map(([k, v]) => {
-                        return message.data[k] == v
+                        return message.data?.[k] === v
                     })
                     .reduce((acc, e) => acc && e, true)
             }),
@@ -145,16 +144,16 @@ class WebSocketAPI {
             version?: string
             installId?: string
         } = {},
-    ): WebSocketResponse$<Record<never, never>, Label> {
+    ): WebSocketResponse$<Record<never, never>> {
         return this.ws.log$.pipe(
-            filterCtxMessage<Record<never, never>, Label>({
+            filterCtxMessage<Record<never, never>>({
                 withLabels: ['Label.INSTALL_BACKEND_SH'],
                 withAttributes: filters,
             }),
             filter((message: ContextMessage<Record<never, never>>) => {
                 return Object.entries(filters)
                     .map(([k, v]) => {
-                        return message.data[k] == v
+                        return message.data?.[k] === v
                     })
                     .reduce((acc, e) => acc && e, true)
             }),
@@ -165,16 +164,16 @@ class WebSocketAPI {
             name?: string
             version?: Kind
         } = {},
-    ): WebSocketResponse$<InstallBackendEvent, Label> {
+    ): WebSocketResponse$<InstallBackendEvent> {
         return this.ws.log$.pipe(
-            filterCtxMessage<InstallBackendEvent, Label>({
+            filterCtxMessage<InstallBackendEvent>({
                 withLabels: ['Label.START_BACKEND_SH'],
                 withAttributes: filters,
             }),
             filter((message: ContextMessage<InstallBackendEvent>) => {
                 return Object.entries(filters)
                     .map(([k, v]) => {
-                        return message.data[k] == v
+                        return message.data?.[k] === v
                     })
                     .reduce((acc, e) => acc && e, true)
             }),
@@ -185,16 +184,16 @@ class WebSocketAPI {
             name?: string
             version?: Kind
         } = {},
-    ): WebSocketResponse$<BackendResponse, Label> {
+    ): WebSocketResponse$<BackendResponse> {
         return this.ws.data$.pipe(
-            filterCtxMessage<BackendResponse, Label>({
+            filterCtxMessage<BackendResponse>({
                 withLabels: ['BackendResponse'],
                 withAttributes: filters,
             }),
             filter((message: ContextMessage<BackendResponse>) => {
                 return Object.entries(filters)
                     .map(([k, v]) => {
-                        return message.data[k] == v
+                        return message.data?.[k] === v
                     })
                     .reduce((acc, e) => acc && e, true)
             }),
@@ -272,7 +271,7 @@ export class SystemRouter extends Router {
     ): HTTPResponse$<QueryRootLogsResponse> {
         return this.send$({
             command: 'query',
-            path: `/logs/?from-timestamp=${fromTimestamp}&max-count=${maxCount}`,
+            path: `/logs/?from-timestamp=${String(fromTimestamp)}&max-count=${String(maxCount)}`,
             callerOptions,
         })
     }
@@ -365,9 +364,10 @@ export class SystemRouter extends Router {
                   callerOptions?: CallerRequestOptions
               },
     ): HTTPResponse$<TerminateResponse> {
-        const path = params['uid']
-            ? `/backends/${params['uid']}/terminate`
-            : `/backends/${params['name']}/${params['version']}/terminate`
+        const path =
+            'uid' in params
+                ? `/backends/${params.uid}/terminate`
+                : `/backends/${params.name}/${params.version}/terminate`
         return this.send$({
             command: 'delete',
             path,

@@ -106,7 +106,7 @@ export interface Manifest {
     fingerprint: string
     creationDate: string
     files: string[]
-    cmdOutputs: string[] | { [key: string]: unknown }
+    cmdOutputs: string[] | Record<string, unknown>
 }
 
 export interface PipelineStepStatus {
@@ -155,7 +155,7 @@ export interface PipelineStepEvent {
 
 export interface CreateProjectFromTemplateBody {
     type: string
-    parameters: { [k: string]: string }
+    parameters: Record<string, string>
 }
 
 export type CreateProjectFromTemplateResponse = Project

@@ -25,7 +25,7 @@ export class AssetsGatewayClient extends RootRouter {
         headers,
         hostName,
     }: {
-        headers?: { [_key: string]: string }
+        headers?: Record<string, string>
         hostName?: string
     } = {}) {
         super({

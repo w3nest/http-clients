@@ -9,7 +9,7 @@ export class WebpmSessionsStorageClient extends RootRouter {
     constructor({
         headers,
     }: {
-        headers?: { [_key: string]: string }
+        headers?: Record<string, string>
     } = {}) {
         super({
             basePath: '/api/webpm-sessions-storage',

@@ -23,12 +23,12 @@ export class WebpmClient extends RootRouter {
         basePath,
         hostName,
     }: {
-        headers?: { [_key: string]: string }
+        headers?: Record<string, string>
         basePath?: string
         hostName?: string
     } = {}) {
         super({
-            basePath: basePath || '/api/webpm',
+            basePath: basePath ?? '/api/webpm',
             headers,
             hostName,
         })
@@ -53,7 +53,8 @@ export class WebpmClient extends RootRouter {
         const toKey = { semver: 'semver', maxCount: 'max-count' }
         const suffix = queryParameters
             ? Object.entries(queryParameters).reduce(
-                  (acc, [k, v]) => `${acc}${toKey[k]}=${v}&`,
+                  (acc, [k, v]: ['semver' | 'maxCount', string | number]) =>
+                      `${acc}${toKey[k]}=${String(v)}&`,
                   '?',
               )
             : ''

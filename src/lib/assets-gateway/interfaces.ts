@@ -16,7 +16,7 @@ export interface GroupResponse {
 }
 
 export interface GroupsResponse {
-    groups: Array<GroupResponse>
+    groups: GroupResponse[]
 }
 
 export type QueryGroupsResponse = GroupsResponse

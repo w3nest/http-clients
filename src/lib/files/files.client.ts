@@ -22,12 +22,12 @@ export class FilesClient extends RootRouter {
         basePath,
         hostName,
     }: {
-        headers?: { [_key: string]: string }
+        headers?: Record<string, string>
         basePath?: string
         hostName?: string
     } = {}) {
         super({
-            basePath: basePath || '/api/stories-backend',
+            basePath: basePath ?? '/api/stories-backend',
             headers,
             hostName,
         })
@@ -54,7 +54,7 @@ export class FilesClient extends RootRouter {
         queryParameters?: { folderId?: string }
         callerOptions?: CallerRequestOptions
     }): HTTPResponse$<NewAssetResponse<UploadResponse> | UploadResponse> {
-        const suffix = queryParameters.folderId
+        const suffix = queryParameters?.folderId
             ? `?folder-id=${queryParameters.folderId}`
             : ''
         const content = body.content

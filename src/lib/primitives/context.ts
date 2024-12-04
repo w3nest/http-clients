@@ -47,10 +47,10 @@ export interface ContextMessage<T = unknown, TLabel = Label> {
     contextId: string
     level: 'INFO' | 'WARNING' | 'ERROR'
     text: string
-    labels: TLabel[]
+    labels?: TLabel[]
     parentContextId: string | undefined
-    data: T
-    attributes: { [key: string]: string }
+    data?: T
+    attributes?: Record<string, string>
     timestamp: number
 }
 

@@ -12,12 +12,12 @@ export class AccountsClient extends RootRouter {
         basePath,
         hostName,
     }: {
-        headers?: { [_key: string]: string }
+        headers?: Record<string, string>
         basePath?: string
         hostName?: string
     } = {}) {
         super({
-            basePath: basePath || '/api/accounts',
+            basePath: basePath ?? '/api/accounts',
             headers,
             hostName,
         })

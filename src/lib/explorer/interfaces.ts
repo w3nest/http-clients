@@ -162,27 +162,26 @@ export interface PurgeDriveResponse {
 export function isInstanceOfItemResponse(
     node: unknown,
 ): node is GetItemResponse {
-    return (
-        (node as GetItemResponse).assetId != undefined &&
-        (node as GetItemResponse).rawId != undefined &&
-        (node as GetItemResponse).itemId != undefined
-    )
+    if (node === null || typeof node !== 'object') {
+        return false
+    }
+    return 'assetId' in node && 'rawId' in node && 'itemId' in node
 }
 
 export function isInstanceOfFolderResponse(
     node: unknown,
 ): node is GetFolderResponse {
-    return (
-        (node as GetFolderResponse).parentFolderId != undefined &&
-        (node as GetFolderResponse).folderId != undefined
-    )
+    if (node === null || typeof node !== 'object') {
+        return false
+    }
+    return 'parentFolderId' in node && 'folderId' in node
 }
 
 export function isInstanceOfGroupResponse(
     node: unknown,
 ): node is GetGroupResponse {
-    return (
-        (node as GetGroupResponse).path != undefined &&
-        (node as GetGroupResponse).id != undefined
-    )
+    if (node === null || typeof node !== 'object') {
+        return false
+    }
+    return 'path' in node && 'id' in node
 }
