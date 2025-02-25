@@ -1,3 +1,5 @@
+import { Package as WebpmPackage } from '../../../webpm'
+
 export interface Failure {
     path: string
     failure: string
@@ -25,33 +27,28 @@ export interface Artifacts {
     links: Link[]
 }
 
-export interface PipelineStep {
+export interface CIStep {
     id: string
     artifacts: Artifacts[]
+    view?: string
 }
 
-export interface Flow {
-    name: string
-    dag: string[]
-}
-
-export interface Pipeline {
+export interface CI {
     tags: string[]
     description: string
-    steps: PipelineStep[]
-    flow: Flow
+    steps: CIStep[]
+    dag: string[]
 }
-
 export interface Project {
-    pipeline: Pipeline
+    ci: CI
+    webpmSpec: WebpmPackage
     path: string
     name: string
     id: string
     version: string
-    target: Target
 }
 
-export type FailurePipelineNotFound = Failure
+export type FailureWebpmSpecNotFound = Failure
 
 export type FailureDirectoryNotFound = Failure
 
@@ -65,7 +62,7 @@ export interface ProjectsLoadingResults {
     failures: {
         directoriesNotFound: FailureDirectoryNotFound[]
         importExceptions: FailureImportException[]
-        pipelinesNotFound: FailurePipelineNotFound[]
+        webpmSpecNotFound: FailureWebpmSpecNotFound[]
     }
 }
 
@@ -106,16 +103,17 @@ export interface Manifest {
     fingerprint: string
     creationDate: string
     files: string[]
-    cmdOutputs: string[] | Record<string, unknown>
+    data: Record<string, unknown>
+    stdOut: string[]
 }
 
-export interface PipelineStepStatus {
+export interface CIStepStatus {
     id: string
     path: string
     links: Link[]
 }
 
-export interface PipelineStepStatusResponse {
+export interface CIStepStatusResponse {
     projectId: string
     stepId: string
     artifactFolder: string
@@ -123,34 +121,31 @@ export interface PipelineStepStatusResponse {
     manifest?: Manifest
     status: 'OK' | 'KO' | 'outdated' | 'none'
 }
-export type GetPipelineStepStatusResponse = PipelineStepStatusResponse
+export type GetCIStepStatusResponse = CIStepStatusResponse
 
-export type RunStepResponse = PipelineStepStatusResponse
+export type RunStepResponse = CIStepStatusResponse
 
-export interface PipelineStatus {
+export interface CIStatus {
     projectId: string
-    steps: PipelineStepStatusResponse[]
+    steps: CIStepStatusResponse[]
 }
 
-export type PipelineStatusResponse = PipelineStatus
+export type CIStatusResponse = CIStatus
 
 export type ProjectStatusResponse = ProjectStatus
 
-export type GetPipelineStatusResponse = PipelineStatus
+export type GetPipelineStatusResponse = CIStatus
 
 export interface GetArtifactsResponse {
     artifacts: Artifact[]
 }
 
-export type PipelineStepEventKind =
-    | 'runStarted'
-    | 'runDone'
-    | 'statusCheckStarted'
+export type CIStepEventKind = 'runStarted' | 'runDone' | 'statusCheckStarted'
 
-export interface PipelineStepEvent {
+export interface CIStepEvent {
     projectId: string
     stepId: string
-    event: PipelineStepEventKind
+    event: CIStepEventKind
 }
 
 export interface CreateProjectFromTemplateBody {

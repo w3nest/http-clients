@@ -58,3 +58,72 @@ export interface GetLibraryInfoResponse {
 export interface DeleteLibraryResponse {
     deletedVersionsCount: number
 }
+
+export interface FileListing {
+    include: string[]
+    ignore: string[]
+}
+
+export interface Frontend {
+    entryPoint: string
+    entryDependencies?: Record<string, string>
+    extraDependencies?: Record<string, string>
+}
+
+export interface AssetMatch {
+    kind: string
+    name: string
+}
+
+export interface OpeningRule {
+    match: AssetMatch
+    urlParameters: Record<string, string>
+}
+
+export interface WebAppExecution {
+    standalone?: boolean
+    openWidth?: OpeningRule[]
+}
+
+export interface WebApp extends Frontend {
+    kind: 'webapp'
+    execution?: WebAppExecution
+}
+
+export interface ESM extends Frontend {
+    kind: 'esm'
+    aliases?: string[]
+}
+
+export interface ReadynessProbe {
+    path?: string
+}
+
+export interface Backend {
+    kind: 'backend'
+    deployKind: 'container' | 'shell'
+    entryPoint: string
+    entryDependencies: Record<string, string>
+    readynessProbe: ReadynessProbe
+}
+
+export interface Distribution {
+    files: FileListing
+    artifacts?: string[]
+}
+
+export interface Metadata {
+    icon?: string | Record<string, string>
+    description?: string
+    readme?: string
+    documentation?: string
+    license?: string
+}
+
+export interface Package {
+    name: string
+    version: string
+    specification: WebApp | ESM | Backend
+    distribution: Distribution
+    metadata?: Metadata
+}

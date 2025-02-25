@@ -8,18 +8,18 @@ import {
 
 import {
     GetProjectsStatusResponse,
-    PipelineStepEvent,
-    PipelineStepStatusResponse,
+    CIStepEvent,
+    CIStepStatusResponse,
     GetProjectStatusResponse,
     GetPipelineStatusResponse,
     GetArtifactsResponse,
     ArtifactsResponse,
     ProjectStatusResponse,
-    PipelineStatusResponse,
+    CIStatusResponse,
     ProjectsLoadingResultsResponse,
-    GetPipelineStepStatusResponse,
+    GetCIStepStatusResponse,
     RunStepResponse,
-    PipelineStepEventKind,
+    CIStepEventKind,
     CreateProjectFromTemplateBody,
     CreateProjectFromTemplateResponse,
 } from './interfaces'
@@ -49,10 +49,10 @@ class WebSocketAPI {
 
     ciStatus$(
         filters: { projectId?: string } = {},
-    ): WebSocketResponse$<PipelineStatusResponse> {
+    ): WebSocketResponse$<CIStatusResponse> {
         return this.ws.data$.pipe(
-            filterCtxMessage<PipelineStatusResponse>({
-                withLabels: ['PipelineStatusResponse'],
+            filterCtxMessage<CIStatusResponse>({
+                withLabels: ['CIStatusResponse'],
                 withAttributes: filters,
             }),
         )
@@ -60,10 +60,10 @@ class WebSocketAPI {
 
     ciStepStatus$(
         filters: { projectId?: string; stepId?: string } = {},
-    ): WebSocketResponse$<PipelineStepStatusResponse> {
+    ): WebSocketResponse$<CIStepStatusResponse> {
         return this.ws.data$.pipe(
-            filterCtxMessage<PipelineStepStatusResponse>({
-                withLabels: ['PipelineStepStatusResponse'],
+            filterCtxMessage<CIStepStatusResponse>({
+                withLabels: ['CIStepStatusResponse'],
                 withAttributes: filters,
             }),
         )
@@ -84,12 +84,12 @@ class WebSocketAPI {
         filters: {
             projectId?: string
             stepId?: string
-            event?: PipelineStepEventKind
+            event?: CIStepEventKind
         } = {},
-    ): WebSocketResponse$<PipelineStepEvent> {
+    ): WebSocketResponse$<CIStepEvent> {
         return this.ws.data$.pipe(
-            filterCtxMessage<PipelineStepEvent>({
-                withLabels: ['PipelineStepEvent'],
+            filterCtxMessage<CIStepEvent>({
+                withLabels: ['CIStepEvent'],
                 withAttributes: filters,
             }),
         )
@@ -201,7 +201,7 @@ export class ProjectsRouter extends Router {
         projectId: string
         stepId: string
         callerOptions?: CallerRequestOptions
-    }): HTTPResponse$<GetPipelineStepStatusResponse> {
+    }): HTTPResponse$<GetCIStepStatusResponse> {
         return this.send$({
             command: 'query',
             path: `/${projectId}/ci/steps/${stepId}`,
