@@ -12,6 +12,7 @@ import {
     DeleteLibraryResponse,
     GetVersionInfoResponse,
     UploadBody,
+    GetVersionMetadataResponse,
 } from './interfaces'
 
 import { NewAssetResponse } from '../assets-gateway'
@@ -84,6 +85,29 @@ export class WebpmClient extends RootRouter {
         return this.send$({
             command: 'query',
             path: `/libraries/${libraryId}/${version}`,
+            callerOptions,
+        })
+    }
+
+    /**
+     * Retrieve metadata info of a library
+     *
+     * @param libraryId
+     * @param version
+     * @param callerOptions
+     */
+    getMetadataInfo$({
+        libraryId,
+        version,
+        callerOptions,
+    }: {
+        libraryId: string
+        version: string
+        callerOptions?: CallerRequestOptions
+    }): HTTPResponse$<GetVersionMetadataResponse> {
+        return this.send$({
+            command: 'query',
+            path: `/metadata/${libraryId}/${version}`,
             callerOptions,
         })
     }

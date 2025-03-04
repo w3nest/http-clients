@@ -36,6 +36,11 @@ export interface UploadResponse {
     url: string
 }
 
+export interface GetVersionMetadataResponse {
+    icon: string
+    displayName: string
+}
+
 export interface GetVersionInfoResponse {
     name: string
     version: string
