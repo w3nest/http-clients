@@ -48,22 +48,9 @@ export interface Project {
     version: string
 }
 
-export type FailureWebpmSpecNotFound = Failure
-
-export type FailureDirectoryNotFound = Failure
-
-export interface FailureImportException extends Failure {
-    traceback: string
-    exceptionType: string
-}
-
 export interface ProjectsLoadingResults {
     results: Project[]
-    failures: {
-        directoriesNotFound: FailureDirectoryNotFound[]
-        importExceptions: FailureImportException[]
-        webpmSpecNotFound: FailureWebpmSpecNotFound[]
-    }
+    failures: Failure[]
 }
 
 export type GetProjectsStatusResponse = ProjectsLoadingResults
