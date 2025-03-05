@@ -1,4 +1,7 @@
+import { WebpmKind as WebPMKind } from '../../../webpm'
+
 export type WebpmLibraryType = 'js/wasm' | 'backend' | 'pyodide'
+export type WebpmKind = WebPMKind
 
 export interface PackageVersionInfo {
     version: string
@@ -14,6 +17,7 @@ export type UpdateStatus =
 export interface CdnVersionLight {
     version: string
     type: WebpmLibraryType
+    kind: WebpmKind
 }
 
 export interface CdnVersion extends CdnVersionLight {

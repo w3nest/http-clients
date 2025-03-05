@@ -1,3 +1,5 @@
+export type WebpmKind = 'esm' | 'webapp' | 'backend' | 'pyodide'
+
 export interface Release {
     version: string
     version_number: number
@@ -47,6 +49,7 @@ export interface GetVersionInfoResponse {
     id: string
     namespace: string
     type: string
+    kind: WebpmKind
     fingerprint: string
     aliases: string[]
     apiKey: string
