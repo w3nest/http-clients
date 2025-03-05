@@ -27,88 +27,115 @@ const exportedSymbols = {
     }
 }
 
-const mainEntry : {entryFile: string,loadDependencies:string[]} = {
+const mainEntry: { entryFile: string; loadDependencies: string[] } =
+    {
     "entryFile": "./index.ts",
     "loadDependencies": [
         "rxjs"
     ]
 }
 
-const secondaryEntries : {[k:string]:{entryFile: string, name: string, loadDependencies:string[]}}= {}
+const secondaryEntries: {
+    [k: string]: { entryFile: string; name: string; loadDependencies: string[] }
+} = {}
 
 const entries = {
-     '@w3nest/http-clients': './index.ts',
-    ...Object.values(secondaryEntries).reduce( (acc,e) => ({...acc, [`@w3nest/http-clients/${e.name}`]:e.entryFile}), {})
+    '@w3nest/http-clients': './index.ts',
+    ...Object.values(secondaryEntries).reduce(
+        (acc, e) => ({ ...acc, [e.name]: e.entryFile }),
+        {},
+    ),
 }
 export const setup = {
-    name:'@w3nest/http-clients',
-        assetId:'QHczbmVzdC9odHRwLWNsaWVudHM=',
-    version:'0.1.4-wip',
-    shortDescription:"HTTP clients for the w3nest ecosystem.",
-    developerDocumentation:'https://platform.youwol.com/apps/@youwol/cdn-explorer/latest?package=@w3nest/http-clients&tab=doc',
-    npmPackage:'https://www.npmjs.com/package/@w3nest/http-clients',
-    sourceGithub:'https://github.com/w3nest/http-clients',
-    userGuide:'',
-    apiVersion:'01',
+    name: '@w3nest/http-clients',
+    assetId: 'QHczbmVzdC9odHRwLWNsaWVudHM=',
+    version: '0.1.5',
+    webpmPath: '/api/assets-gateway/webpm/resources/QHczbmVzdC9odHRwLWNsaWVudHM=/0.1.5',
+    apiVersion: '01',
     runTimeDependencies,
     externals,
     exportedSymbols,
     entries,
     secondaryEntries,
-    getDependencySymbolExported: (module:string) => {
+    getDependencySymbolExported: (module: string) => {
         return `${exportedSymbols[module].exportedSymbol}_APIv${exportedSymbols[module].apiKey}`
     },
 
-    installMainModule: ({cdnClient, installParameters}:{
-        cdnClient:{install:(_:unknown) => Promise<WindowOrWorkerGlobalScope>},
+    installMainModule: ({
+        cdnClient,
+        installParameters,
+    }: {
+        cdnClient: {
+            install: (_: unknown) => Promise<WindowOrWorkerGlobalScope>
+        }
         installParameters?
     }) => {
         const parameters = installParameters || {}
         const scripts = parameters.scripts || []
         const modules = [
             ...(parameters.modules || []),
-            ...mainEntry.loadDependencies.map( d => `${d}#${runTimeDependencies.externals[d]}`)
+            ...mainEntry.loadDependencies.map(
+                (d) => `${d}#${runTimeDependencies.externals[d]}`,
+            ),
         ]
-        return cdnClient.install({
-            ...parameters,
-            modules,
-            scripts,
-        }).then(() => {
-            return window[`@w3nest/http-clients_APIv01`]
-        })
+        return cdnClient
+            .install({
+                ...parameters,
+                modules,
+                scripts,
+            })
+            .then(() => {
+                return window[`@w3nest/http-clients_APIv01`]
+            })
     },
-    installAuxiliaryModule: ({name, cdnClient, installParameters}:{
-        name: string,
-        cdnClient:{install:(_:unknown) => Promise<WindowOrWorkerGlobalScope>},
+    installAuxiliaryModule: ({
+        name,
+        cdnClient,
+        installParameters,
+    }: {
+        name: string
+        cdnClient: {
+            install: (_: unknown) => Promise<WindowOrWorkerGlobalScope>
+        }
         installParameters?
     }) => {
         const entry = secondaryEntries[name]
-        if(!entry){
-            throw Error(`Can not find the secondary entry '${name}'. Referenced in template.py?`)
+        if (!entry) {
+            throw Error(
+                `Can not find the secondary entry '${name}'. Referenced in template.py?`,
+            )
         }
         const parameters = installParameters || {}
         const scripts = [
             ...(parameters.scripts || []),
-            `@w3nest/http-clients#0.1.4-wip~dist/@w3nest/http-clients/${entry.name}.js`
+            `@w3nest/http-clients#0.1.5~dist/${entry.name}.js`,
         ]
         const modules = [
             ...(parameters.modules || []),
-            ...entry.loadDependencies.map( d => `${d}#${runTimeDependencies.externals[d]}`)
+            ...entry.loadDependencies.map(
+                (d) => `${d}#${runTimeDependencies.externals[d]}`,
+            ),
         ]
-        return cdnClient.install({
-            ...parameters,
-            modules,
-            scripts,
-        }).then(() => {
-            return window[`@w3nest/http-clients/${entry.name}_APIv01`]
-        })
+        return cdnClient
+            .install({
+                ...parameters,
+                modules,
+                scripts,
+            })
+            .then(() => {
+                return window[`@w3nest/http-clients_APIv01`][`${entry.name}`]
+            })
     },
-    getCdnDependencies(name?: string){
-        if(name && !secondaryEntries[name]){
-            throw Error(`Can not find the secondary entry '${name}'. Referenced in template.py?`)
+    getCdnDependencies(name?: string) {
+        if (name && !secondaryEntries[name]) {
+            throw Error(
+                `Can not find the secondary entry '${name}'. Referenced in template.py?`,
+            )
         }
-        const deps = name ? secondaryEntries[name].loadDependencies : mainEntry.loadDependencies
+        const deps = name
+            ? secondaryEntries[name].loadDependencies
+            : mainEntry.loadDependencies
 
-        return deps.map( d => `${d}#${runTimeDependencies.externals[d]}`)
-    }
+        return deps.map((d) => `${d}#${runTimeDependencies.externals[d]}`)
+    },
 }

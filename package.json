@@ -1,15 +1,15 @@
 {
     "name": "@w3nest/http-clients",
     "description": "HTTP clients for the w3nest ecosystem.",
-    "version": "0.1.4-wip",
+    "version": "0.1.5",
     "author": "reinisch.gui@gmail.com",
     "homepage": "https://github.com/w3nest/http-clients#README.md",
-    "main": "dist/@w3nest/http-clients.js",
+    "main": "./dist/@w3nest/http-clients.js",
     "types": "src/index.ts",
     "scripts": {
         "clean": "del-cli dist",
         "setup": "python .w3nest/setup.py",
-        "build": "yarn build:dev",
+        "build": "yarn build:prod",
         "pre-build": "yarn clean",
         "build:dev": "yarn pre-build && webpack --mode development",
         "build:prod": "yarn pre-build && webpack --mode production",
@@ -22,12 +22,24 @@
         "doc": "typedoc",
         "publish-npm-public": "yarn build:prod && yarn test-coverage && yarn publish --access public"
     },
+    "exports": {
+        ".": {
+            "default": "./dist/@w3nest/http-clients.js",
+            "types": "./src/index.ts",
+            "webpm": {
+                "dependencies": [
+                    "rxjs"
+                ],
+                "aliases": []
+            }
+        }
+    },
     "dependencies": {
         "rxjs": "^7.5.6"
     },
     "devDependencies": {
         "@types/jest": "^29.5.4",
-        "@types/node": "^22.9.0",
+        "@types/node": "^22.13.4",
         "@types/webpack": "^5.28.5",
         "adm-zip": "0.5.9",
         "del-cli": "^5.1.0",
@@ -41,21 +53,21 @@
         "prettier": "^3.2.5",
         "prettier-plugin-properties": "^0.3.0",
         "ts-jest": "^29.2.5",
-        "ts-loader": "9.5.1",
+        "ts-loader": "9.5.2",
         "ts-node": "10.9.2",
-        "tsx": "4.19.2",
-        "typedoc": "^0.26.11",
-        "typescript": "5.6.3",
+        "tsx": "^4.19.2",
+        "typedoc": "^0.27.7",
+        "typescript": "5.7.3",
         "typescript-eslint": "8.14.0",
-        "webpack": "^5.96.1",
+        "webpack": "^5.98.0",
         "webpack-bundle-analyzer": "^4.10.2",
-        "webpack-cli": "5.1.4"
+        "webpack-cli": "6.0.1"
     },
     "webpm": {
+        "kind": "esm",
         "dependencies": {
             "rxjs": "^7.5.6"
-        },
-        "aliases": []
+        }
     },
     "browser": {
         "fs": false,
