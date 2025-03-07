@@ -49,8 +49,8 @@ const entries = {
 export const setup = {
     name: '@w3nest/http-clients',
     assetId: 'QHczbmVzdC9odHRwLWNsaWVudHM=',
-    version: '0.1.5',
-    webpmPath: '/api/assets-gateway/webpm/resources/QHczbmVzdC9odHRwLWNsaWVudHM=/0.1.5',
+    version: '0.1.6-wip',
+    webpmPath: '/api/assets-gateway/webpm/resources/QHczbmVzdC9odHRwLWNsaWVudHM=/0.1.6-wip',
     apiVersion: '01',
     runTimeDependencies,
     externals,
@@ -108,7 +108,7 @@ export const setup = {
         const parameters = installParameters || {}
         const scripts = [
             ...(parameters.scripts || []),
-            `@w3nest/http-clients#0.1.5~dist/${entry.name}.js`,
+            `@w3nest/http-clients#0.1.6-wip~dist/${entry.name}.js`,
         ]
         const modules = [
             ...(parameters.modules || []),
