@@ -41,6 +41,7 @@ export interface UploadResponse {
 export interface GetVersionMetadataResponse {
     icon: string
     displayName: string
+    specification: WebApp | ESM | Backend
 }
 
 export interface GetVersionInfoResponse {
