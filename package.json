@@ -69,6 +69,15 @@
             "rxjs": "^7.5.6"
         }
     },
+    "webpack": {
+        "root": "src",
+        "apiVersion": "01",
+        "main": "./index.ts",
+        "additionalEntries": {},
+        "externals": {
+            "rxjs": "rxjs_APIv7"
+        }
+    },
     "browser": {
         "fs": false,
         "path": false,
