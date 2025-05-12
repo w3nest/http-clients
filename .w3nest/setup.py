@@ -51,7 +51,6 @@ template_folder = Path(__file__).parent / '.template'
 generate_template(config=config,dst_folder=template_folder)
 
 files = [
-    Path("src") / "auto-generated.ts",
     "README.md",
     "package.json",
     "jest.config.ts",
