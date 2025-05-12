@@ -6,8 +6,13 @@ import {
     WebSocketOptions,
     WebSocketResponse$,
 } from '../primitives'
-import { combineLatest, distinctUntilChanged, Observable } from 'rxjs'
-import { map, take } from 'rxjs/operators'
+import {
+    combineLatest,
+    distinctUntilChanged,
+    Observable,
+    map,
+    take,
+} from 'rxjs'
 
 import { ContextMessage, HealthzResponse } from '../primitives'
 import { ApiRouter } from './routers/api.router'

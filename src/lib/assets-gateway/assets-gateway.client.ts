@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs'
 import { AccountsClient } from '../accounts'
 import { AssetsClient } from '../assets'
 import { WebpmClient } from '../webpm'

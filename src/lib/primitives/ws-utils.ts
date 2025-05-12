@@ -1,5 +1,4 @@
-import { BehaviorSubject, Observable, Subject } from 'rxjs'
-import { filter } from 'rxjs/operators'
+import { BehaviorSubject, Observable, Subject, filter } from 'rxjs'
 import { ContextMessage, Label } from './context'
 
 export type WebSocketResponse$<T, TLabel = Label> = Observable<

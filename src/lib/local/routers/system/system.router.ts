@@ -8,7 +8,7 @@ import {
     GetFileContentResponse,
 } from '../../../primitives'
 
-import { filter } from 'rxjs/operators'
+import { filter } from 'rxjs'
 import { WsRouter } from '../../'
 
 export type Kind = 'package' | 'data' | 'flux-project' | 'story'
