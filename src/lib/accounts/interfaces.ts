@@ -7,19 +7,23 @@ export interface UserInfos {
     name: string
     temp: boolean
     groups: Groups[]
+    email?: string
 }
 
 export interface SessionBaseDetails {
     userInfo: UserInfos
     remembered: boolean
+    accountManagerUrl: string
+    logoutUrl: string
+}
+
+export interface UserSessionDetails extends SessionBaseDetails {
     impersonating: false
 }
 
-export interface SessionImpersonationDetails {
-    userInfo: UserInfos
-    remembered: boolean
+export interface SessionImpersonationDetails extends SessionBaseDetails {
     realUserInfo: UserInfos
     impersonating: true
 }
 
-export type SessionDetails = SessionImpersonationDetails | SessionBaseDetails
+export type SessionDetails = SessionImpersonationDetails | UserSessionDetails
