@@ -23,6 +23,12 @@ export class AccountsClient extends RootRouter {
         })
     }
 
+    public switchAccountUrl(redirectUri: string): string {
+        return `${this.basePath}/openid_rp/auth?target_uri=${encodeURI(
+            redirectUri,
+        )}&prompt=login`
+    }
+
     public logoutAndForgetUserUrl(redirectUri: string): string {
         return this._logoutUrl(redirectUri, true)
     }
