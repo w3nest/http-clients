@@ -1,7 +1,7 @@
 {
     "name": "@w3nest/http-clients",
     "description": "HTTP clients for the w3nest ecosystem.",
-    "version": "0.1.7",
+    "version": "0.1.8-wip",
     "author": "reinisch.gui@gmail.com",
     "homepage": "https://github.com/w3nest/http-clients#README.md",
     "main": "./dist/@w3nest/http-clients.js",
@@ -75,7 +75,9 @@
         "main": "./index.ts",
         "additionalEntries": {},
         "externals": {
-            "rxjs": "rxjs_APIv7"
+            "rxjs": [
+                "rxjs_APIv7"
+            ]
         }
     },
     "browser": {
