@@ -91,6 +91,7 @@ export interface CloudEnvironment {
     envId: string
     host: string
     authentications: Authentication[]
+    authProvider: { openidBaseUrl: string }
 }
 
 export interface Connection {
