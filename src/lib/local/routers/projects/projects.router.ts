@@ -152,6 +152,20 @@ export class ProjectsRouter extends Router {
         })
     }
 
+    getProjectReadMe$({
+        projectId,
+        callerOptions,
+    }: {
+        projectId: string
+        callerOptions?: CallerRequestOptions
+    }): HTTPResponse$<string> {
+        return this.send$({
+            command: 'query',
+            path: `/${projectId}/readme`,
+            callerOptions,
+        })
+    }
+
     getArtifacts$({
         projectId,
         callerOptions,
