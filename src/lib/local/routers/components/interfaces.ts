@@ -18,6 +18,7 @@ export interface CdnVersionLight {
     version: string
     type: WebpmLibraryType
     kind: WebpmKind
+    origin: string
 }
 
 export interface CdnVersion extends CdnVersionLight {
