@@ -12,7 +12,8 @@ export interface Package {
 }
 export interface Runtime {
     info: PyodideInfo
-    packages: Package[]
+    availablePackages: Package[]
+    installedPackages: Package[]
 }
 export interface GetPythonStatusResponse {
     runtimes: Runtime[]
