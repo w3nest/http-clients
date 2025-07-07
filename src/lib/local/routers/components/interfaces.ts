@@ -19,11 +19,15 @@ export interface CdnVersionLight {
     type: WebpmLibraryType
     kind: WebpmKind
     origin: string
+    parent?: string
+    children: string[]
+    dependencies: Record<string, string>
 }
 
 export interface CdnVersion extends CdnVersionLight {
     filesCount: number
     entryPointSize: number // in bytes
+    entryPoint: string
 }
 
 export interface CdnPackage {
