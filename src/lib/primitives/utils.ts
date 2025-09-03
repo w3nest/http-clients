@@ -261,7 +261,10 @@ export function send$<T>(
         nativeOptions.body = JSON.stringify(nativeOptions.json)
         // noinspection ConditionalExpressionWithIdenticalBranchesJS
         nativeOptions.headers = nativeOptions.headers
-            ? { ...nativeOptions.headers, 'content-type': 'application/json' }
+            ? {
+                  ...(nativeOptions.headers as Record<string, string>),
+                  'content-type': 'application/json',
+              }
             : { 'content-type': 'application/json' }
     }
     const request = new Request(path, nativeOptions)

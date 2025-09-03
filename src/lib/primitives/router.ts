@@ -40,12 +40,10 @@ export class Router {
     }): Observable<TResponse | HTTPError> {
         nativeRequestOptions ??= {}
         callerOptions ??= {}
-        if (!nativeRequestOptions.method) {
-            nativeRequestOptions.method = Router.defaultMethodMapping[command]
-        }
+        nativeRequestOptions.method ??= Router.defaultMethodMapping[command]
 
         const headers = {
-            ...nativeRequestOptions.headers,
+            ...(nativeRequestOptions.headers as Record<string, string>),
             ...this.headers,
             ...(callerOptions.headers ?? {}),
         }
@@ -74,9 +72,8 @@ export class Router {
     }) {
         nativeRequestOptions ??= {}
         callerOptions ??= {}
-        if (!nativeRequestOptions.method) {
-            nativeRequestOptions.method = Router.defaultMethodMapping[command]
-        }
+
+        nativeRequestOptions.method ??= Router.defaultMethodMapping[command]
 
         const headers = {
             ...headersInitToDict(nativeRequestOptions.headers),
