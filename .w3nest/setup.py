@@ -43,16 +43,24 @@ config = ProjectConfig(
         mainModule=MainModule(entryFile="./index.ts", loadDependencies=["rxjs"])
     ),
     testConfig="https://github.com/youwol/integration-tests-conf",
+    links={
+        "W3Nest": "https://w3nest.org",
+    },
 )
 
 template_folder = Path(__file__).parent / ".template"
 generate_template(config=config, dst_folder=template_folder)
 
 files = [
+    ".gitignore",
     "README.md",
     "package.json",
     "jest.config.ts",
     "webpack.config.ts",
+    "typedoc.js",
+    ".prettierignore",
+    ".prettierrc.json",
+    # "eslint.config.mjs", add strict checks
 ]
 for file in files:
     copyfile(src=template_folder / file, dst=project_folder / file)
