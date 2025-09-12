@@ -137,6 +137,7 @@ export interface CIStepEvent {
 
 export interface CreateProjectFromTemplateBody {
     type: string
+    parentFolder: string
     parameters: Record<string, string>
 }
 
