@@ -30,8 +30,6 @@ yarn build:prod
 
 ---
 
-Tests require [w3nest](https://w3nest.org) local server to run on port 2001 using the configuration defined [here](https://github.com/youwol/integration-tests-conf).
-
 To run tests:
 
 ```shell
