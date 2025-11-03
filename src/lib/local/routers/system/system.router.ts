@@ -81,10 +81,12 @@ export interface InstallBackendEvent {
 }
 
 export interface BackendResponse {
+    uid: string
     name: string
     version: string
     url: string
     method: string
+    statusCode: number
 }
 
 export type ClearLogsResponse = Record<string, never>
@@ -320,19 +322,27 @@ export class SystemRouter extends Router {
         })
     }
 
-    queryBackendLogs$({
-        name,
-        version,
-        callerOptions,
-    }: {
-        name: string
-        version: string
-        callerOptions?: CallerRequestOptions
-    }): HTTPResponse$<BackendLogsResponse> {
+    queryBackendLogs$(
+        params:
+            | {
+                  name: string
+                  version: string
+                  callerOptions?: CallerRequestOptions
+              }
+            | {
+                  uid: string
+                  callerOptions?: CallerRequestOptions
+              },
+    ): HTTPResponse$<BackendLogsResponse> {
+        const path =
+            'uid' in params
+                ? `/backends/${params.uid}/logs`
+                : `/backends/${params.name}/${params.version}/logs`
+
         return this.send$({
             command: 'query',
-            path: `/backends/${name}/${version}/logs`,
-            callerOptions,
+            path,
+            callerOptions: params.callerOptions,
         })
     }
 
